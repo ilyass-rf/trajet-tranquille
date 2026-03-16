@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trajet Tranquille – Équipe & Formation</title>
+<link rel="icon" type="image/png" href="buss.jpg">
+</head>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--primary:#6c63ff;--accent:#f9a825;--dark:#07090f;--card:#0f1320;--text:#e2e8f0;--muted:#7a8499;--green:#22c55e;--red:#ef4444;--border:rgba(255,255,255,0.07);}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;}
+body.ar{direction:rtl;font-family:'Noto Naskh Arabic','DM Sans',sans-serif;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--dark);}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:2px;}
+
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--accent));z-index:999;width:0;transition:width .1s;border-radius:0 2px 2px 0;box-shadow:0 0 8px rgba(108,99,255,.6);}
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+
+.nav{position:fixed;top:0;width:100%;z-index:200;background:rgba(7,9,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:12px 40px;transition:all .3s;}
+.nav.scrolled{padding:8px 40px;background:rgba(7,9,15,.97);}
+.brand{font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;letter-spacing:2px;}
+.brand span{color:var(--primary);}
+.lang-btns{display:flex;gap:8px;}
+.lang-btn{padding:5px 18px;border-radius:50px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.75rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .25s;}
+.lang-btn.active,.lang-btn:hover{background:var(--primary);border-color:var(--primary);color:#fff;transform:translateY(-1px);box-shadow:0 4px 15px rgba(108,99,255,.4);}
+
+.dots{position:fixed;right:20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:99;}
+body.ar .dots{right:auto;left:20px;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);cursor:pointer;border:none;transition:all .3s;}
+.dot.active{background:var(--primary);transform:scale(1.5);box-shadow:0 0 8px rgba(108,99,255,.6);}
+.dot:hover{background:rgba(255,255,255,.4);}
+
+.slide{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:90px 40px 60px;position:relative;overflow:hidden;z-index:1;}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+.s-tag{font-size:.7rem;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--primary);margin-bottom:10px;}
+.s-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:800;text-align:center;margin-bottom:14px;}
+.divider{height:4px;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:2px;margin:0 auto 36px;width:0;transition:width .9s ease .2s;}
+.divider.visible{width:56px;}
+.s-sub{color:var(--muted);text-align:center;max-width:600px;line-height:1.8;margin-bottom:44px;font-size:.95rem;}
+
+#s1{background:radial-gradient(ellipse at 60% 30%,#1c1440 0%,var(--dark) 65%);}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.orb1{width:500px;height:500px;background:rgba(108,99,255,.1);top:-150px;right:-150px;animation:orbFloat 8s ease-in-out infinite;}
+.orb2{width:350px;height:350px;background:rgba(249,168,37,.07);bottom:-100px;left:-100px;animation:orbFloat 10s ease-in-out infinite reverse;}
+.hero-tag{display:inline-block;background:rgba(108,99,255,.12);border:1px solid rgba(108,99,255,.35);color:var(--primary);padding:6px 20px;border-radius:50px;font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:22px;animation:fadeDown .8s ease both;}
+.hero-title{font-family:'Syne',sans-serif;font-size:clamp(2rem,8vw,6rem);font-weight:800;line-height:1.05;text-align:center;margin-bottom:18px;animation:fadeUp .9s ease .15s both;white-space:nowrap;}
+.hero-title .hl{color:var(--accent);}
+.hero-title .hl2{color:var(--primary);}
+.hero-sub{font-size:1rem;color:var(--muted);max-width:560px;text-align:center;line-height:1.8;margin-bottom:38px;animation:fadeUp .9s ease .3s both;}
+.btn-hero{display:inline-block;background:var(--primary);color:#fff;padding:14px 36px;border-radius:50px;font-weight:600;font-size:.9rem;cursor:pointer;border:none;box-shadow:0 0 30px rgba(108,99,255,.4);transition:all .3s;font-family:'DM Sans',sans-serif;position:relative;overflow:hidden;}
+.btn-hero:hover{transform:translateY(-3px);box-shadow:0 8px 35px rgba(108,99,255,.6);}
+.btn-outline{background:transparent;border:2px solid rgba(108,99,255,.5);box-shadow:none;}
+.btn-outline:hover{background:rgba(108,99,255,.15);box-shadow:0 8px 35px rgba(108,99,255,.3);}
+.bus-anim{font-size:5.5rem;animation:busFloat 3s ease-in-out infinite,fadeDown .8s ease both;display:block;margin-bottom:18px;filter:drop-shadow(0 0 20px rgba(108,99,255,.4));}
+
+.obj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:960px;width:100%;}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1020px;width:100%;}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:960px;width:100%;}
+
+#s2{background:radial-gradient(ellipse at 30% 70%,#1c1440 0%,var(--dark) 60%);}
+.obj-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:26px;position:relative;overflow:hidden;opacity:0;transform:translateY(30px) scale(.97);transition:opacity .5s ease,transform .5s ease,border-color .3s,box-shadow .3s;}
+.obj-card.visible{opacity:1;transform:translateY(0) scale(1);}
+.obj-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--primary),var(--accent));transform:scaleX(0);transform-origin:left;transition:transform .4s ease;}
+.obj-card:hover{transform:translateY(-7px) !important;border-color:rgba(108,99,255,.5);box-shadow:0 20px 40px rgba(0,0,0,.4),0 0 20px rgba(108,99,255,.1);}
+.obj-card:hover::before{transform:scaleX(1);}
+.obj-icon{font-size:2.2rem;margin-bottom:14px;display:block;transition:transform .3s;}
+.obj-card:hover .obj-icon{transform:scale(1.2) rotate(-8deg);}
+.obj-card h3{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:700;margin-bottom:8px;}
+.obj-card p{font-size:.8rem;color:var(--muted);line-height:1.65;}
+
+#s3{background:var(--dark);}
+.member-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px;display:flex;flex-direction:column;opacity:0;transform:translateY(30px);transition:opacity .5s ease,transform .5s ease,border-color .3s,box-shadow .3s;position:relative;overflow:hidden;}
+.member-card.visible{opacity:1;transform:translateY(0);}
+.member-card:hover{transform:translateY(-7px) rotateX(2deg) !important;border-color:rgba(108,99,255,.45);box-shadow:0 20px 40px rgba(0,0,0,.35),0 0 20px rgba(108,99,255,.1);}
+.m-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;}
+.m-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;border:2px solid rgba(108,99,255,.3);transition:transform .3s,box-shadow .3s;}
+.member-card:hover .m-avatar{transform:scale(1.1) rotate(5deg);box-shadow:0 0 15px rgba(108,99,255,.4);}
+.m-avatar.p{background:linear-gradient(135deg,#6c63ff1a,#6c63ff33);}
+.m-avatar.a{background:linear-gradient(135deg,#f9a8251a,#f9a82533);}
+.m-avatar.g{background:linear-gradient(135deg,#22c55e1a,#22c55e33);}
+.m-avatar.r{background:linear-gradient(135deg,#ef44441a,#ef444433);}
+.m-info{flex:1;min-width:0;}
+.m-num{font-size:.62rem;font-weight:600;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+.m-name{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;line-height:1.3;margin-top:2px;}
+.m-level{font-size:.68rem;color:var(--primary);font-weight:600;margin-top:3px;display:flex;align-items:center;gap:5px;}
+.excl{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;min-width:16px;background:var(--accent);color:#000;border-radius:50%;font-size:.6rem;font-weight:900;cursor:pointer;position:relative;animation:exclPulse 2s ease-in-out infinite;flex-shrink:0;}
+.excl:hover .excl-tip{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
+.excl-tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(6px);background:#1a1f35;border:1px solid rgba(249,168,37,.4);color:var(--text);font-size:.71rem;line-height:1.55;padding:10px 14px;border-radius:10px;width:230px;opacity:0;transition:all .25s ease;pointer-events:none;z-index:999;font-weight:400;box-shadow:0 8px 24px rgba(0,0,0,.6);white-space:normal;}
+.excl-tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1a1f35;}
+@keyframes exclPulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(249,168,37,.6);}50%{transform:scale(1.18);box-shadow:0 0 0 6px rgba(249,168,37,0);}}
+.team-notice{background:rgba(249,168,37,.07);border:1px solid rgba(249,168,37,.22);border-radius:14px;padding:13px 18px;max-width:1020px;width:100%;margin-bottom:24px;display:flex;align-items:flex-start;gap:11px;font-size:.79rem;color:var(--muted);line-height:1.6;opacity:0;transform:translateY(-10px);transition:opacity .5s ease,transform .5s ease;}
+.team-notice.visible{opacity:1;transform:translateY(0);}
+.team-notice-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+.m-desc{font-size:.78rem;color:var(--muted);line-height:1.65;margin-bottom:12px;flex:1;}
+.m-tasks{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;}
+.task-badge{padding:3px 9px;border-radius:50px;font-size:.66rem;font-weight:600;transition:transform .2s,box-shadow .2s;cursor:default;}
+.task-badge:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,.3);}
+.task-badge.p{background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.25);color:var(--primary);}
+.task-badge.a{background:rgba(249,168,37,.1);border:1px solid rgba(249,168,37,.25);color:var(--accent);}
+.task-badge.g{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:var(--green);}
+.task-badge.r{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--red);}
+
+#s4{background:radial-gradient(ellipse at 70% 30%,#12102a 0%,var(--dark) 60%);}
+.form-wrap{max-width:880px;width:100%;}
+.form-role{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;margin-bottom:16px;opacity:0;transform:translateX(-24px);transition:opacity .5s ease,transform .5s ease,border-color .3s;}
+.form-role.visible{opacity:1;transform:translateX(0);}
+.form-role:hover{border-color:rgba(108,99,255,.35);}
+.form-role-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.form-role-icon{font-size:1.4rem;transition:transform .3s;}
+.form-role:hover .form-role-icon{transform:scale(1.2) rotate(-8deg);}
+.form-role-title{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:700;}
+.form-role-persons{font-size:.7rem;color:var(--muted);margin-left:auto;background:rgba(255,255,255,.04);padding:3px 10px;border-radius:50px;border:1px solid var(--border);}
+body.ar .form-role-persons{margin-left:0;margin-right:auto;}
+.roadmap-steps{display:flex;flex-wrap:wrap;align-items:center;gap:7px;}
+.step{padding:6px 12px;border-radius:10px;font-size:.73rem;font-weight:600;white-space:nowrap;transition:transform .2s,box-shadow .2s;cursor:default;}
+.step:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(0,0,0,.3);}
+.step.p{background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.25);color:var(--text);}
+.step.a{background:rgba(249,168,37,.1);border:1px solid rgba(249,168,37,.25);color:var(--text);}
+.step.g{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:var(--text);}
+.step.r{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--text);}
+.arrow{color:var(--muted);font-size:.85rem;animation:arrowPulse 2s ease-in-out infinite;}
+@keyframes arrowPulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ══ PLANNING ══ */
+#s6{background:var(--dark);}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:960px;width:100%;}
+.plan-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease,border-color .3s,box-shadow .3s;position:relative;overflow:hidden;cursor:pointer;}
+.plan-card.visible{opacity:1;transform:translateY(0);}
+.plan-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .4s ease;}
+.plan-card:hover{transform:translateY(-6px) !important;border-color:rgba(108,99,255,.4);box-shadow:0 15px 35px rgba(0,0,0,.3);}
+.plan-card:hover::after{width:100%;}
+.plan-month{font-size:.68rem;font-weight:700;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:8px;}
+.plan-title{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:700;margin-bottom:12px;}
+.plan-members{display:flex;flex-wrap:wrap;gap:6px;}
+.pm-badge{background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.2);color:var(--primary);padding:3px 10px;border-radius:50px;font-size:.68rem;font-weight:600;transition:all .2s;}
+.pm-badge:hover{background:rgba(108,99,255,.25);transform:scale(1.08);}
+.plan-hint{font-size:.65rem;color:var(--muted);margin-top:10px;display:flex;align-items:center;gap:4px;opacity:.7;}
+
+/* ══ MODAL ══ */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+.modal-overlay.open{opacity:1;pointer-events:auto;}
+.modal{background:#0f1320;border:1px solid rgba(108,99,255,.3);border-radius:20px;width:100%;max-width:620px;max-height:85vh;overflow-y:auto;transform:translateY(30px) scale(.97);transition:transform .3s ease;box-shadow:0 30px 80px rgba(0,0,0,.7);}
+.modal-overlay.open .modal{transform:translateY(0) scale(1);}
+.modal-header{padding:22px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;position:sticky;top:0;background:#0f1320;z-index:2;border-radius:20px 20px 0 0;}
+.modal-month{font-size:.65rem;font-weight:700;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:4px;}
+.modal-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;}
+.modal-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--muted);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
+.modal-close:hover{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.3);color:var(--red);}
+.modal-body{padding:20px 24px 24px;}
+.modal-role-block{margin-bottom:18px;}
+.modal-role-label{display:flex;align-items:center;gap:8px;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.modal-role-emoji{font-size:1rem;}
+.modal-tasks{display:flex;flex-direction:column;gap:6px;}
+.modal-task{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;background:rgba(255,255,255,.03);border-radius:10px;font-size:.78rem;line-height:1.55;color:var(--text);}
+.modal-task-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.modal-task-dot.p{background:var(--primary);}
+.modal-task-dot.g{background:var(--green);}
+.modal-task-dot.a{background:var(--accent);}
+.modal-task-dot.r{background:var(--red);}
+.modal-task-dot.w{background:var(--muted);}
+
+/* ══ CONTACT MODAL ══ */
+.contact-input{width:100%;padding:10px 14px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.85rem;outline:none;font-family:'DM Sans',sans-serif;transition:border-color .2s;appearance:none;}
+.contact-input:focus{border-color:var(--primary);}
+.contact-input::placeholder{color:var(--muted);}
+select.contact-input{background:#0f1320;cursor:pointer;}
+.contact-label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:6px;font-weight:500;}
+.contact-group{margin-bottom:14px;}
+.contact-submit{width:100%;padding:13px;background:linear-gradient(135deg,var(--primary),#8b7cf6);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 0 20px rgba(108,99,255,.4);transition:all .3s;letter-spacing:.5px;}
+.contact-submit:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(108,99,255,.6);}
+.contact-submit:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+
+/* ══ GROUPES ══ */
+#s5-groups{background:radial-gradient(ellipse at 50% 30%,#0d1f10 0%,var(--dark) 65%);}
+.groups-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1100px;width:100%;}
+.group-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px;opacity:0;transform:translateY(30px);transition:opacity .5s ease,transform .5s ease,border-color .3s,box-shadow .3s;position:relative;overflow:hidden;min-height:200px;}
+.group-card.visible{opacity:1;transform:translateY(0);}
+.group-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--green),var(--primary));transform:scaleX(0);transform-origin:left;transition:transform .4s ease;}
+.group-card:hover{transform:translateY(-7px) !important;border-color:rgba(34,197,94,.4);box-shadow:0 20px 40px rgba(0,0,0,.4),0 0 20px rgba(34,197,94,.08);}
+.group-card:hover::before{transform:scaleX(1);}
+.group-num{font-size:.68rem;font-weight:700;letter-spacing:3px;color:var(--green);text-transform:uppercase;margin-bottom:10px;}
+.group-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.group-members-list{display:flex;flex-direction:column;gap:8px;}
+.group-member-slot{display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.08);border-radius:10px;transition:all .2s;}
+.group-member-slot:hover{background:rgba(34,197,94,.05);border-color:rgba(34,197,94,.2);}
+.slot-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);flex-shrink:0;}
+.slot-text{font-size:.78rem;color:var(--text);font-style:normal;font-weight:500;}
+
+/* ══ CTA ══ */
+#s7{background:radial-gradient(ellipse at 50% 50%,#1c1440 0%,var(--dark) 70%);text-align:center;}
+.cta-title{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,4rem);font-weight:800;margin-bottom:18px;line-height:1.12;}
+.cta-title span{color:var(--accent);}
+.stats{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:36px;}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 32px;text-align:center;opacity:0;transform:translateY(20px) scale(.95);transition:opacity .5s ease,transform .5s ease,border-color .3s,box-shadow .3s;}
+.stat.visible{opacity:1;transform:translateY(0) scale(1);}
+.stat:hover{transform:translateY(-6px) !important;border-color:rgba(108,99,255,.4);box-shadow:0 15px 35px rgba(0,0,0,.3);}
+.stat-num{font-family:'Syne',sans-serif;font-size:2.4rem;font-weight:800;}
+.stat-lbl{font-size:.75rem;color:var(--muted);margin-top:3px;}
+
+.ripple{position:absolute;border-radius:50%;background:rgba(108,99,255,.2);transform:scale(0);animation:rippleOut .6s linear forwards;pointer-events:none;}
+@keyframes rippleOut{to{transform:scale(4);opacity:0;}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-25px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+@keyframes busFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(2deg)}}
+@keyframes orbFloat{0%,100%{transform:scale(1) translateY(0)}50%{transform:scale(1.1) translateY(-20px)}}
+
+[data-fr],[data-en],[data-ar]{display:none;}
+body.fr [data-fr]{display:block;}body.en [data-en]{display:block;}body.ar [data-ar]{display:block;}
+span[data-fr],span[data-en],span[data-ar]{display:none;}
+body.fr span[data-fr]{display:inline;}body.en span[data-en]{display:inline;}body.ar span[data-ar]{display:inline;}
+
+@media(max-width:768px){.team-grid,.obj-grid,.plan-grid,.groups-grid{grid-template-columns:1fr;}.nav{padding:8px 12px;gap:6px;}.brand{font-size:.85rem;letter-spacing:1px;}.lang-btns{gap:4px;}.lang-btn{padding:4px 10px;font-size:.65rem;}.excl-tip{width:180px;}.hero-title{font-size:clamp(1.6rem,10vw,3rem);white-space:normal;word-break:break-word;line-height:1.1;}.modal{max-height:90vh;}}
+</style>
+
+<!-- ══ MODAL PLANNING ══ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div class="modal-month" id="modalMonth"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ══ MODAL CONTACT ══ -->
+<div class="modal-overlay" id="contactModalOverlay" onclick="closeContactModal(event)" style="z-index:1100;">
+  <div class="modal" id="contactModalBox" style="max-width:500px;">
+    <div class="modal-header">
+      <div>
+        <div class="modal-month">CONTACT</div>
+        <div class="modal-title">
+          📬 <span data-fr>Envoyez-nous un message</span><span data-en>Send us a message</span><span data-ar>راسلنا</span>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeContactModalBtn()">✕</button>
+    </div>
+    <div class="modal-body" id="contactModalBody">
+      <form id="contactFormModal" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="aaaad1b6-ffd7-4c4a-b247-7386c3db12dc">
+        <input type="hidden" name="subject" value="📬 Nouveau message depuis Trajet Tranquille">
+        <input type="hidden" name="from_name" value="Trajet Tranquille Contact">
+
+        <div class="contact-group">
+          <label class="contact-label">
+            <span data-fr>Nom complet *</span><span data-en>Full Name *</span><span data-ar>الاسم الكامل *</span>
+          </label>
+          <input type="text" name="name" required class="contact-input"
+            placeholder="Jean Dupont">
+        </div>
+
+        <div class="contact-group">
+          <label class="contact-label">Email *</label>
+          <input type="email" name="email" required class="contact-input"
+            placeholder="jean@exemple.com">
+        </div>
+
+        <div class="contact-group">
+          <label class="contact-label">
+            <span data-fr>Type de demande *</span><span data-en>Request Type *</span><span data-ar>نوع الطلب *</span>
+          </label>
+          <select name="Type_de_demande" required class="contact-input">
+            <option value="">-- Sélectionnez / Select / اختر --</option>
+            <option value="ℹ️ Demande d'information">ℹ️ Demande d'information / Information / معلومة</option>
+            <option value="👁️ Remarque / Observation">👁️ Remarque / Observation / ملاحظة</option>
+            <option value="📝 Autre">📝 Autre / Other / أخرى</option>
+          </select>
+        </div>
+
+        <div class="contact-group">
+          <label class="contact-label">Message *</label>
+          <textarea name="message" required rows="4" class="contact-input"
+            placeholder="Votre message..." style="resize:vertical;"></textarea>
+        </div>
+
+        <button type="submit" class="contact-submit" id="contactSubmitBtn">
+          <span data-fr>📤 Envoyer le message</span>
+          <span data-en>📤 Send Message</span>
+          <span data-ar>📤 إرسال الرسالة</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<body class="fr">
+<div class="progress-bar" id="progressBar"></div>
+<canvas id="particles"></canvas>
+
+<div class="nav" id="mainNav">
+  <div class="brand">TRAJET <span>TRANQUILLE</span></div>
+  <div class="lang-btns">
+    <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('ar')">AR</button>
+  </div>
+</div>
+<div class="dots" id="navDots"></div>
+
+<section class="slide" id="s1">
+  <div class="orb orb1"></div><div class="orb orb2"></div>
+  <span class="bus-anim">🚌</span>
+  <div class="hero-tag">MINDS AND MACHINES CLUB • <span data-fr>Présentation Équipe</span><span data-en>Team Presentation</span><span data-ar>عرض الفريق</span></div>
+  <h1 class="hero-title"><span class="hl2" style="text-shadow:10px 10px 10px #07090f;">TRAJET</span> <span class="hl">TRANQUILLE</span></h1>
+  <p class="hero-sub">
+    <span data-fr>Application mobile de suivi des bus en temps réel — Objectifs, rôles, formations et planning de notre équipe.</span>
+    <span data-en>Real-time bus tracking app — Objectives, roles, training paths and planning for our team.</span>
+    <span data-ar>تطبيق تتبع الحافلات في الوقت الفعلي — أهداف، أدوار، مسارات التعلم وخطة فريقنا.</span>
+  </p>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;animation:fadeUp .9s ease .45s both;">
+    <button class="btn-hero" style="animation:none;" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth'})">
+      <span data-fr>Découvrir ↓</span><span data-en>Discover ↓</span><span data-ar>اكتشف ↓</span>
+    </button>
+    <button class="btn-hero btn-outline" style="animation:none;" onclick="document.getElementById('s5-groups').scrollIntoView({behavior:'smooth'})">
+      <span data-fr>👥 Les Groupes</span><span data-en>👥 The Groups</span><span data-ar>👥 المجموعات</span>
+    </button>
+  </div>
+</section>
+
+<section class="slide" id="s2">
+  <div class="s-tag reveal"><span data-fr>01 — Objectifs</span><span data-en>01 — Objectives</span><span data-ar>01 — الأهداف</span></div>
+  <h2 class="s-title reveal"><span data-fr>Pourquoi Trajet Tranquille ?</span><span data-en>Why Trajet Tranquille?</span><span data-ar>لماذا Trajet Tranquille؟</span></h2>
+  <div class="divider"></div>
+  <div class="obj-grid">
+    <div class="obj-card"><div class="obj-icon">📍</div><h3><span data-fr>Suivi GPS en temps réel</span><span data-en>Real-time GPS tracking</span><span data-ar>تتبع GPS في الوقت الفعلي</span></h3><p><span data-fr>Voir la position exacte de chaque bus sur une carte interactive mise à jour en direct.</span><span data-en>See the exact position of every bus on a live-updating map.</span><span data-ar>رؤية الموقع الدقيق لكل حافلة على خريطة تفاعلية.</span></p></div>
+    <div class="obj-card"><div class="obj-icon">⏱️</div><h3><span data-fr>Estimer le temps d'attente</span><span data-en>Estimate waiting time</span><span data-ar>تقدير وقت الانتظار</span></h3><p><span data-fr>Calculer automatiquement le temps d'arrivée (ETA) grâce à la vitesse et la distance.</span><span data-en>Auto-calculate ETA using bus speed and distance.</span><span data-ar>حساب وقت الوصول تلقائياً بناءً على السرعة والمسافة.</span></p></div>
+    <div class="obj-card"><div class="obj-icon">🔔</div><h3><span data-fr>Notifications intelligentes</span><span data-en>Smart notifications</span><span data-ar>إشعارات ذكية</span></h3><p><span data-fr>Alerter l'usager quand son bus approche pour ne jamais le rater.</span><span data-en>Alert users when their bus is nearby so they never miss it.</span><span data-ar>تنبيه المستخدم عند اقتراب حافلته.</span></p></div>
+    <div class="obj-card"><div class="obj-icon">🗺️</div><h3><span data-fr>Consulter les lignes</span><span data-en>Browse routes</span><span data-ar>استعراض الخطوط</span></h3><p><span data-fr>Afficher toutes les lignes, arrêts et itinéraires complets facilement.</span><span data-en>Display all routes, stops and full itineraries easily.</span><span data-ar>عرض جميع الخطوط والمحطات والمسارات الكاملة.</span></p></div>
+    <div class="obj-card"><div class="obj-icon">🏢</div><h3><span data-fr>Dashboard compagnie</span><span data-en>Company dashboard</span><span data-ar>لوحة تحكم للشركة</span></h3><p><span data-fr>Tableau de bord complet pour gérer les chauffeurs et analyser les données.</span><span data-en>Full dashboard to manage drivers and analyze performance.</span><span data-ar>لوحة تحكم كاملة لإدارة السائقين وتحليل البيانات.</span></p></div>
+    <div class="obj-card"><div class="obj-icon">🔒</div><h3><span data-fr>Sécurité & Fiabilité</span><span data-en>Security & Reliability</span><span data-ar>الأمان والموثوقية</span></h3><p><span data-fr>Protéger les données et garantir le service même sans signal GPS stable.</span><span data-en>Protect data and ensure service even without stable GPS signal.</span><span data-ar>حماية البيانات وضمان الخدمة حتى بدون إشارة GPS.</span></p></div>
+  </div>
+</section>
+
+<section class="slide" id="s3">
+  <div class="s-tag reveal"><span data-fr>02 — Équipe</span><span data-en>02 — Team</span><span data-ar>02 — الفريق</span></div>
+  <h2 class="s-title reveal"><span data-fr>6 Rôles</span><span data-en>6 Roles</span><span data-ar>٦ أدوار</span></h2>
+  <div class="divider"></div>
+  <div class="team-notice reveal">
+    <div class="team-notice-icon">⚠️</div>
+    <div>
+      <strong style="color:var(--accent)"><span data-fr>Remarque importante :</span><span data-en>Important note:</span><span data-ar>ملاحظة مهمة:</span></strong>
+      <span data-fr> Les niveaux indiqués (Débutant / Intermédiaire) <strong>ne sont pas fixes</strong> — ils peuvent évoluer selon les compétences réelles de chaque membre.</span>
+      <span data-en> Indicated levels (Beginner / Intermediate) are <strong>not fixed</strong> — they may evolve based on each member's actual skills.</span>
+      <span data-ar> المستويات المشار إليها (مبتدئ / متوسط) <strong>غير ثابتة</strong> — قد تتطور وفق المهارات الفعلية لكل عضو.</span>
+    </div>
+  </div>
+  <div class="team-grid">
+    <div class="member-card"><div class="m-header"><div class="m-avatar p">🐍</div><div class="m-info"><div class="m-num"><span data-fr>Rôle 1</span><span data-en>Role 1</span><span data-ar>دور 1</span></div><div class="m-name"><span data-fr>Backend</span><span data-en>Backend</span><span data-ar>تطوير الخادم</span></div><div class="m-level">Intermédiaire<span class="excl">!<div class="excl-tip"><span data-fr>⚠️ Ce niveau n'est pas fixe, il peut évoluer selon les compétences réelles du membre.</span><span data-en>⚠️ This level is not fixed, it may evolve based on the member's actual skills.</span><span data-ar>⚠️ هذا المستوى غير ثابت، قد يتطور وفق المهارات الفعلية للعضو.</span></div></span></div></div></div><p class="m-desc"><span data-fr>Construit le serveur FastAPI, crée les APIs REST, gère l'authentification JWT et les WebSockets.</span><span data-en>Builds the FastAPI server, creates REST APIs, manages JWT auth and WebSockets.</span><span data-ar>يبني خادم FastAPI وينشئ APIs ويدير المصادقة و WebSocket.</span></p><div class="m-tasks"><span class="task-badge p">FastAPI</span><span class="task-badge p">REST API</span><span class="task-badge p">WebSocket</span><span class="task-badge p">JWT</span><span class="task-badge p">Python</span></div></div>
+    <div class="member-card"><div class="m-header"><div class="m-avatar g">🗄️</div><div class="m-info"><div class="m-num"><span data-fr>Rôle 2</span><span data-en>Role 2</span><span data-ar>دور 2</span></div><div class="m-name"><span data-fr>Base de Données</span><span data-en>Database</span><span data-ar>قواعد البيانات</span></div><div class="m-level">Intermédiaire<span class="excl">!<div class="excl-tip"><span data-fr>⚠️ Ce niveau n'est pas fixe, il peut évoluer.</span><span data-en>⚠️ This level is not fixed, it may evolve.</span><span data-ar>⚠️ هذا المستوى غير ثابت.</span></div></span></div></div></div><p class="m-desc"><span data-fr>Conçoit et administre PostgreSQL, gère les données géographiques avec PostGIS.</span><span data-en>Designs and manages PostgreSQL, handles geographic data with PostGIS.</span><span data-ar>يصمم ويدير PostgreSQL والبيانات الجغرافية مع PostGIS.</span></p><div class="m-tasks"><span class="task-badge g">PostgreSQL</span><span class="task-badge g">PostGIS</span><span class="task-badge g">SQL</span><span class="task-badge g">psycopg2</span></div></div>
+    <div class="member-card"><div class="m-header"><div class="m-avatar p">📱</div><div class="m-info"><div class="m-num"><span data-fr>Rôle 3</span><span data-en>Role 3</span><span data-ar>دور 3</span></div><div class="m-name"><span data-fr>Développement Mobile</span><span data-en>Mobile Development</span><span data-ar>تطوير الموبايل</span></div><div class="m-level" style="color:var(--accent)">Débutant → Flutter<span class="excl">!<div class="excl-tip"><span data-fr>⚠️ Ce niveau n'est pas fixe, il peut évoluer.</span><span data-en>⚠️ This level is not fixed, it may evolve.</span><span data-ar>⚠️ هذا المستوى غير ثابت.</span></div></span></div></div></div><p class="m-desc"><span data-fr>Développe l'application Flutter : carte interactive, suivi live, calcul ETA, notifications et écrans utilisateur.</span><span data-en>Develops the Flutter app: interactive map, live tracking, ETA calculation, notifications and user screens.</span><span data-ar>يطوّر تطبيق Flutter: خريطة تفاعلية، تتبع مباشر، حساب ETA، إشعارات وشاشات المستخدم.</span></p><div class="m-tasks"><span class="task-badge p">Flutter</span><span class="task-badge p">Dart</span><span class="task-badge p">Maps</span><span class="task-badge p">Firebase</span><span class="task-badge p">WebSocket</span></div></div>
+    <div class="member-card"><div class="m-header"><div class="m-avatar r">📡</div><div class="m-info"><div class="m-num"><span data-fr>Rôle 4</span><span data-en>Role 4</span><span data-ar>دور 4</span></div><div class="m-name"><span data-fr>Temps Réel & GPS</span><span data-en>Real-time & GPS</span><span data-ar>الوقت الفعلي و GPS</span></div><div class="m-level">Intermédiaire<span class="excl">!<div class="excl-tip"><span data-fr>⚠️ Ce niveau n'est pas fixe, il peut évoluer.</span><span data-en>⚠️ This level is not fixed, it may evolve.</span><span data-ar>⚠️ هذا المستوى غير ثابت.</span></div></span></div></div></div><p class="m-desc"><span data-fr>Gère MQTT/WebSocket, reçoit et traite les données GPS des appareils Teltonika en temps réel.</span><span data-en>Manages MQTT/WebSocket, receives and processes GPS data from Teltonika devices in real-time.</span><span data-ar>يدير MQTT/WebSocket ويستقبل بيانات GPS من أجهزة Teltonika في الوقت الفعلي.</span></p><div class="m-tasks"><span class="task-badge r">MQTT</span><span class="task-badge r">Mosquitto</span><span class="task-badge r">WebSocket</span><span class="task-badge r">Teltonika</span></div></div>
+    <div class="member-card"><div class="m-header"><div class="m-avatar g">🔒</div><div class="m-info"><div class="m-num"><span data-fr>Rôle 5</span><span data-en>Role 5</span><span data-ar>دور 5</span></div><div class="m-name"><span data-fr>Sécurité & Tests</span><span data-en>Security & Testing</span><span data-ar>الأمان والاختبار</span></div><div class="m-level" style="color:var(--accent)">Débutant<span class="excl">!<div class="excl-tip"><span data-fr>⚠️ Ce niveau n'est pas fixe, il peut évoluer.</span><span data-en>⚠️ This level is not fixed, it may evolve.</span><span data-ar>⚠️ هذا المستوى غير ثابت.</span></div></span></div></div></div><p class="m-desc"><span data-fr>Gère la sécurité (JWT, HTTPS, .env), les tests pytest et le déploiement VPS.</span><span data-en>Manages security (JWT, HTTPS, .env), pytest testing and VPS deployment.</span><span data-ar>يدير الأمان (JWT، HTTPS) والاختبارات والنشر على VPS.</span></p><div class="m-tasks"><span class="task-badge g">HTTPS/SSL</span><span class="task-badge g">pytest</span><span class="task-badge g">SlowAPI</span><span class="task-badge g">VPS</span></div></div>
+    <div class="member-card"><div class="m-header"><div class="m-avatar a">🎨</div><div class="m-info"><div class="m-num"><span data-fr>Rôle 6</span><span data-en>Role 6</span><span data-ar>دور 6</span></div><div class="m-name"><span data-fr>Designer UI/UX</span><span data-en>UI/UX Designer</span><span data-ar>مصمم UI/UX</span></div><div class="m-level" style="color:var(--accent)">Débutant<span class="excl">!<div class="excl-tip"><span data-fr>⚠️ Ce niveau n'est pas fixe, il peut évoluer.</span><span data-en>⚠️ This level is not fixed, it may evolve.</span><span data-ar>⚠️ هذا المستوى غير ثابت.</span></div></span></div></div></div><p class="m-desc"><span data-fr>Conçoit les maquettes sur Figma, définit l'identité visuelle et l'expérience utilisateur de l'application.</span><span data-en>Designs mockups on Figma, defines the visual identity and user experience of the app.</span><span data-ar>يصمم النماذج على Figma ويحدد الهوية البصرية وتجربة المستخدم.</span></p><div class="m-tasks"><span class="task-badge a">Figma</span><span class="task-badge a">Wireframes</span><span class="task-badge a">UX</span><span class="task-badge a">Handoff</span></div></div>
+  </div>
+</section>
+
+<section class="slide" id="s4">
+  <div class="s-tag reveal"><span data-fr>03 — Formations</span><span data-en>03 — Learning Paths</span><span data-ar>03 — مسارات التعلم</span></div>
+  <h2 class="s-title reveal"><span data-fr>Chemin d'apprentissage par rôle</span><span data-en>Learning path per role</span><span data-ar>مسار التعلم لكل دور</span></h2>
+  <div class="divider"></div>
+  <div class="form-wrap">
+    <div class="form-role"><div class="form-role-header"><div class="form-role-icon">🐍</div><div class="form-role-title">Backend — FastAPI</div><div class="form-role-persons"><span data-fr>Rôle 1</span><span data-en>Role 1</span><span data-ar>الدور 1</span></div></div><div class="roadmap-steps"><span class="step p">Python bases</span><span class="arrow">→</span><span class="step p">Fonctions & Classes</span><span class="arrow">→</span><span class="step p">POO</span><span class="arrow">→</span><span class="step p">Modules</span><span class="arrow">→</span><span class="step p">API REST</span><span class="arrow">→</span><span class="step p">FastAPI</span><span class="arrow">→</span><span class="step p">JWT Auth</span><span class="arrow">→</span><span class="step p">WebSocket</span></div></div>
+    <div class="form-role"><div class="form-role-header"><div class="form-role-icon">🗄️</div><div class="form-role-title">Base de Données — PostgreSQL</div><div class="form-role-persons"><span data-fr>Rôle 2</span><span data-en>Role 2</span><span data-ar>الدور 2</span></div></div><div class="roadmap-steps"><span class="step g">Notion BDD</span><span class="arrow">→</span><span class="step g">SQL</span><span class="arrow">→</span><span class="step g">Relations & Clés</span><span class="arrow">→</span><span class="step g">PostgreSQL</span><span class="arrow">→</span><span class="step g">JOIN / INDEX</span><span class="arrow">→</span><span class="step g">PostGIS</span><span class="arrow">→</span><span class="step g">psycopg2</span></div></div>
+    <div class="form-role"><div class="form-role-header"><div class="form-role-icon">📱</div><div class="form-role-title">Mobile — Flutter</div><div class="form-role-persons"><span data-fr>Rôle 3</span><span data-en>Role 3</span><span data-ar>الدور 3</span></div></div><div class="roadmap-steps"><span class="step p">Bases prog.</span><span class="arrow">→</span><span class="step p">Dart</span><span class="arrow">→</span><span class="step p">POO Dart</span><span class="arrow">→</span><span class="step p">Widgets Flutter</span><span class="arrow">→</span><span class="step p">Navigation</span><span class="arrow">→</span><span class="step p">API HTTP</span><span class="arrow">→</span><span class="step p">WebSocket</span><span class="arrow">→</span><span class="step p">Google Maps</span><span class="arrow">→</span><span class="step p">Firebase</span></div></div>
+    <div class="form-role"><div class="form-role-header"><div class="form-role-icon">📡</div><div class="form-role-title">Temps Réel & GPS</div><div class="form-role-persons"><span data-fr>Rôle 4</span><span data-en>Role 4</span><span data-ar>الدور 4</span></div></div><div class="roadmap-steps"><span class="step r">Réseaux TCP/IP</span><span class="arrow">→</span><span class="step r">Sockets</span><span class="arrow">→</span><span class="step r">WebSocket</span><span class="arrow">→</span><span class="step r">MQTT</span><span class="arrow">→</span><span class="step r">Mosquitto</span><span class="arrow">→</span><span class="step r">GPS JSON/XML</span><span class="arrow">→</span><span class="step r">Intégration FastAPI</span></div></div>
+    <div class="form-role"><div class="form-role-header"><div class="form-role-icon">🔒</div><div class="form-role-title">Sécurité & Tests</div><div class="form-role-persons"><span data-fr>Rôle 5</span><span data-en>Role 5</span><span data-ar>الدور 5</span></div></div><div class="roadmap-steps"><span class="step g">Linux Terminal</span><span class="arrow">→</span><span class="step g">VPS</span><span class="arrow">→</span><span class="step g">HTTPS/SSL</span><span class="arrow">→</span><span class="step g">.env</span><span class="arrow">→</span><span class="step g">pytest</span><span class="arrow">→</span><span class="step g">SlowAPI</span><span class="arrow">→</span><span class="step g">Déploiement</span></div></div>
+    <div class="form-role"><div class="form-role-header"><div class="form-role-icon">🎨</div><div class="form-role-title">UI/UX Design</div><div class="form-role-persons"><span data-fr>Rôle 6</span><span data-en>Role 6</span><span data-ar>الدور 6</span></div></div><div class="roadmap-steps"><span class="step a">Principes design</span><span class="arrow">→</span><span class="step a">UX</span><span class="arrow">→</span><span class="step a">Wireframes</span><span class="arrow">→</span><span class="step a">Figma</span><span class="arrow">→</span><span class="step a">Maquettes interactives</span><span class="arrow">→</span><span class="step a">Guidelines mobiles</span><span class="arrow">→</span><span class="step a">Handoff</span></div></div>
+  </div>
+</section>
+
+<section class="slide" id="s6">
+  <div class="s-tag reveal"><span data-fr>04 — Planning</span><span data-en>04 — Timeline</span><span data-ar>04 — الجدول الزمني</span></div>
+  <h2 class="s-title reveal"><span data-fr>6 Mois de Développement</span><span data-en>6 Months of Development</span><span data-ar>٦ أشهر من التطوير</span></h2>
+  <div class="divider"></div>
+  <!-- ══ BOUTON CONTACT ══ -->
+  <button class="btn-hero reveal" style="margin-bottom:32px;animation:none;display:flex;align-items:center;gap:10px;" onclick="openContactModal()">
+    <span style="font-size:1.1rem;">📬</span>
+    <span data-fr>Nous contacter</span>
+    <span data-en>Contact Us</span>
+    <span data-ar>تواصل معنا</span>
+  </button>
+
+  <div class="plan-grid">
+    <div class="plan-card" onclick="openModal(1)">
+      <div class="plan-month"><span data-fr>Mois 1</span><span data-en>Month 1</span><span data-ar>الشهر 1</span></div>
+      <div class="plan-title"><span data-fr>📚 Formation & Analyse</span><span data-en>📚 Training & Analysis</span><span data-ar>📚 التدريب والتحليل</span></div>
+      <div class="plan-members"><span class="pm-badge"><span data-fr>Tous</span><span data-en>All</span><span data-ar>الجميع</span></span></div>
+      <div class="plan-hint">👆 <span data-fr>Voir le détail</span><span data-en>See details</span><span data-ar>عرض التفاصيل</span></div>
+    </div>
+    <div class="plan-card" onclick="openModal(2)">
+      <div class="plan-month"><span data-fr>Mois 2</span><span data-en>Month 2</span><span data-ar>الشهر 2</span></div>
+      <div class="plan-title"><span data-fr>🗺️ Maquettes & BDD</span><span data-en>🗺️ Mockups & DB</span><span data-ar>🗺️ النماذج وقاعدة البيانات</span></div>
+      <div class="plan-members"><span class="pm-badge">R2</span><span class="pm-badge">R6</span></div>
+      <div class="plan-hint">👆 <span data-fr>Voir le détail</span><span data-en>See details</span><span data-ar>عرض التفاصيل</span></div>
+    </div>
+    <div class="plan-card" onclick="openModal(3)">
+      <div class="plan-month"><span data-fr>Mois 3</span><span data-en>Month 3</span><span data-ar>الشهر 3</span></div>
+      <div class="plan-title"><span data-fr>🖥️ Prototype GPS + Serveur</span><span data-en>🖥️ GPS Prototype + Server</span><span data-ar>🖥️ نموذج GPS + الخادم</span></div>
+      <div class="plan-members"><span class="pm-badge">R1</span><span class="pm-badge">R4</span></div>
+      <div class="plan-hint">👆 <span data-fr>Voir le détail</span><span data-en>See details</span><span data-ar>عرض التفاصيل</span></div>
+    </div>
+    <div class="plan-card" onclick="openModal(4)">
+      <div class="plan-month"><span data-fr>Mois 4</span><span data-en>Month 4</span><span data-ar>الشهر 4</span></div>
+      <div class="plan-title"><span data-fr>⚙️ Backend Complet</span><span data-en>⚙️ Full Backend</span><span data-ar>⚙️ الخادم الكامل</span></div>
+      <div class="plan-members"><span class="pm-badge">R1</span><span class="pm-badge">R2</span><span class="pm-badge">R4</span></div>
+      <div class="plan-hint">👆 <span data-fr>Voir le détail</span><span data-en>See details</span><span data-ar>عرض التفاصيل</span></div>
+    </div>
+    <div class="plan-card" onclick="openModal(5)">
+      <div class="plan-month"><span data-fr>Mois 5</span><span data-en>Month 5</span><span data-ar>الشهر 5</span></div>
+      <div class="plan-title"><span data-fr>📱 Application Mobile</span><span data-en>📱 Mobile App</span><span data-ar>📱 تطبيق الجوال</span></div>
+      <div class="plan-members"><span class="pm-badge">R3</span><span class="pm-badge">R6</span></div>
+      <div class="plan-hint">👆 <span data-fr>Voir le détail</span><span data-en>See details</span><span data-ar>عرض التفاصيل</span></div>
+    </div>
+    <div class="plan-card" onclick="openModal(6)">
+      <div class="plan-month"><span data-fr>Mois 6</span><span data-en>Month 6</span><span data-ar>الشهر 6</span></div>
+      <div class="plan-title"><span data-fr>🚀 Tests & Lancement</span><span data-en>🚀 Tests & Launch</span><span data-ar>🚀 الاختبار والإطلاق</span></div>
+      <div class="plan-members"><span class="pm-badge">R5</span><span class="pm-badge" style="background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.25);color:var(--green)"><span data-fr>Tous</span><span data-en>All</span><span data-ar>الجميع</span></span></div>
+      <div class="plan-hint">👆 <span data-fr>Voir le détail</span><span data-en>See details</span><span data-ar>عرض التفاصيل</span></div>
+    </div>
+  </div>
+  <p class="s-sub reveal" style="margin-top:20px;margin-bottom:0;">
+    <span data-fr>💡 Cliquez sur un mois pour voir le détail des tâches</span>
+    <span data-en>💡 Click on a month to see the task details</span>
+    <span data-ar>💡 انقر على شهر لرؤية تفاصيل المهام</span>
+  </p>
+</section>
+
+<section class="slide" id="s5-groups">
+  <div class="s-tag reveal"><span data-fr>05 — Groupes</span><span data-en>05 — Groups</span><span data-ar>05 — المجموعات</span></div>
+  <h2 class="s-title reveal"><span data-fr>Répartition des Groupes</span><span data-en>Group Assignment</span><span data-ar>توزيع المجموعات</span></h2>
+  <div class="divider"></div>
+  <p class="s-sub reveal"><span data-fr>Composition finale des 6 groupes de travail.</span><span data-en>Final composition of the 6 working groups.</span><span data-ar>التشكيل النهائي لمجموعات العمل الست.</span></p>
+  <div class="groups-grid">
+    <div class="group-card"><div class="group-num">📱 Flutter</div><div class="group-title" style="color:var(--primary)"><span data-fr>Développement Mobile</span><span data-en>Mobile Development</span><span data-ar>تطوير الموبايل</span></div><div class="group-members-list"><div class="group-member-slot"><div class="slot-dot" style="background:var(--primary);"></div><span class="slot-text">Alae</span></div><div class="group-member-slot"><div class="slot-dot" style="background:var(--primary);"></div><span class="slot-text">Imane</span></div><div class="group-member-slot"><div class="slot-dot" style="background:var(--primary);"></div><span class="slot-text">Inés</span></div></div></div>
+    <div class="group-card"><div class="group-num">🗄️ PostgreSQL</div><div class="group-title" style="color:var(--green)"><span data-fr>Base de Données</span><span data-en>Database</span><span data-ar>قواعد البيانات</span></div><div class="group-members-list"><div class="group-member-slot"><div class="slot-dot" style="background:var(--green);"></div><span class="slot-text">Aissaoui Mohammed</span></div><div class="group-member-slot"><div class="slot-dot" style="background:var(--green);"></div><span class="slot-text">Chama</span></div></div></div>
+    <div class="group-card"><div class="group-num">🐍 FastAPI</div><div class="group-title" style="color:var(--primary)"><span data-fr>Backend</span><span data-en>Backend</span><span data-ar>تطوير الخادم</span></div><div class="group-members-list"><div class="group-member-slot"><div class="slot-dot" style="background:var(--primary);"></div><span class="slot-text">Anass</span></div><div class="group-member-slot"><div class="slot-dot" style="background:var(--primary);"></div><span class="slot-text">Ilyasse</span></div><div class="group-member-slot"><div class="slot-dot" style="background:var(--primary);"></div><span class="slot-text">Jelloul Nadia</span></div></div></div>
+    <div class="group-card"><div class="group-num">🔒 <span data-fr>Sécurité</span><span data-en>Security</span><span data-ar>الأمان</span></div><div class="group-title" style="color:var(--green)"><span data-fr>Sécurité & Tests</span><span data-en>Security & Testing</span><span data-ar>الأمان والاختبار</span></div><div class="group-members-list"><div class="group-member-slot"><div class="slot-dot" style="background:var(--green);"></div><span class="slot-text">El Yazidi Kassem</span></div><div class="group-member-slot"><div class="slot-dot" style="background:var(--green);"></div><span class="slot-text">Salma</span></div><div class="group-member-slot"><div class="slot-dot" style="background:var(--green);"></div><span class="slot-text">Youssef</span></div></div></div>
+    <div class="group-card"><div class="group-num">🎨 Design</div><div class="group-title" style="color:var(--accent)">UI/UX Design</div><div class="group-members-list"><div class="group-member-slot"><div class="slot-dot" style="background:var(--accent);"></div><span class="slot-text">Majdouline</span></div><div class="group-member-slot"><div class="slot-dot" style="background:var(--accent);"></div><span class="slot-text">Khawla</span></div></div></div>
+    <div class="group-card"><div class="group-num">📡 GPS</div><div class="group-title" style="color:var(--red)"><span data-fr>Temps Réel & GPS</span><span data-en>Real-time & GPS</span><span data-ar>الوقت الفعلي و GPS</span></div><div class="group-members-list"><div class="group-member-slot"><div class="slot-dot" style="background:var(--red);"></div><span class="slot-text">Ayoube</span></div><div class="group-member-slot"><div class="slot-dot" style="background:var(--red);"></div><span class="slot-text">Salma</span></div></div></div>
+  </div>
+</section>
+
+<section class="slide" id="s7">
+  <div class="orb orb1" style="opacity:.1;"></div>
+  <div style="font-size:3.5rem;margin-bottom:20px;animation:busFloat 3s ease-in-out infinite;">🚌✨</div>
+  <div class="s-tag reveal"><span data-fr>Notre Vision</span><span data-en>Our Vision</span><span data-ar>رؤيتنا</span></div>
+  <h2 class="s-title reveal cta-title">
+    <span data-fr>Ensemble, rendons les transports<br><span>plus intelligents</span></span>
+    <span data-en>Together, let's make transport<br><span>smarter</span></span>
+    <span data-ar>معاً نجعل المواصلات<br><span>أكثر ذكاءً</span></span>
+  </h2>
+  <div class="divider"></div>
+  <p class="s-sub reveal">
+    <span data-fr>Trajet Tranquille by MIND AND MACHINES CLUB — Une ville connectée commence par ses transports.</span>
+    <span data-en>Trajet Tranquille by MIND AND MACHINES CLUB — A connected city starts with its transport.</span>
+    <span data-ar>Trajet Tranquille من MIND AND MACHINES CLUB — المدينة المتصلة تبدأ من مواصلاتها.</span>
+  </p>
+  <div class="stats">
+    <div class="stat"><div class="stat-num" style="color:var(--primary)"><span class="count-up" data-target="15">0</span></div><div class="stat-lbl"><span data-fr>Membres</span><span data-en>Members</span><span data-ar>أعضاء</span></div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--accent)"><span class="count-up" data-target="6">0</span></div><div class="stat-lbl"><span data-fr>Mois</span><span data-en>Months</span><span data-ar>أشهر</span></div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--green)"><span class="count-up" data-target="6">0</span></div><div class="stat-lbl"><span data-fr>Phases</span><span data-en>Phases</span><span data-ar>مراحل</span></div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--red)">∞</div><div class="stat-lbl"><span data-fr>Ambition</span><span data-en>Ambition</span><span data-ar>طموح</span></div></div>
+  </div>
+</section>
+
+<script>
+/* ── LANG ── */
+function setLang(l){document.body.className=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.toLowerCase()===l));}
+
+/* ── NAV DOTS ── */
+const slides=[...document.querySelectorAll('.slide')];
+const dc=document.getElementById('navDots');
+slides.forEach((_,i)=>{const b=document.createElement('button');b.className='dot'+(i===0?' active':'');b.onclick=()=>slides[i].scrollIntoView({behavior:'smooth'});dc.appendChild(b);});
+
+/* ── SCROLL ── */
+window.addEventListener('scroll',()=>{
+  const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+  document.getElementById('progressBar').style.width=p+'%';
+  document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>50);
+});
+
+/* ── INTERSECTION OBSERVER ── */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const idx=slides.indexOf(e.target);
+    if(idx>=0)document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+    e.target.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
+    const div=e.target.querySelector('.divider');
+    if(div)setTimeout(()=>div.classList.add('visible'),200);
+    const cards=e.target.querySelectorAll('.obj-card,.member-card,.plan-card,.form-role,.stat,.group-card,.team-notice');
+    cards.forEach((c,i)=>setTimeout(()=>c.classList.add('visible'),150+i*80));
+    e.target.querySelectorAll('.count-up').forEach(el=>{
+      const target=+el.dataset.target;let cur=0;
+      const t=setInterval(()=>{cur=Math.min(cur+1,target);el.textContent=cur;if(cur>=target)clearInterval(t);},80);
+    });
+  });
+},{threshold:.15});
+slides.forEach(s=>io.observe(s));
+
+/* ── PARTICLES ── */
+const cv=document.getElementById('particles');
+const ctx=cv.getContext('2d');
+let pts=[];
+function resize(){cv.width=window.innerWidth;cv.height=window.innerHeight;pts=[];for(let i=0;i<60;i++)pts.push({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.4+.4});}
+function draw(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>cv.width)p.vx*=-1;if(p.y<0||p.y>cv.height)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(108,99,255,.45)';ctx.fill();});
+  for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);if(d<130){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(108,99,255,${.12*(1-d/130)})`;ctx.lineWidth=.5;ctx.stroke();}}
+  requestAnimationFrame(draw);
+}
+window.addEventListener('resize',resize);resize();draw();
+
+/* ── RIPPLE ── */
+document.querySelectorAll('.member-card,.obj-card,.plan-card,.group-card').forEach(card=>{
+  card.addEventListener('click',e=>{
+    const r=document.createElement('span');r.className='ripple';
+    const rect=card.getBoundingClientRect();const size=Math.max(rect.width,rect.height);
+    r.style.cssText=`width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;position:absolute;`;
+    card.appendChild(r);setTimeout(()=>r.remove(),650);
+  });
+});
+
+/* ══════════════════════════════
+   DONNÉES PLANNING PAR MOIS
+══════════════════════════════ */
+const planData = {
+  1: {
+    fr: { month:'MOIS 1', title:'📚 Formation & Analyse', roles:[
+      {emoji:'🌍', label:'Tout le monde', color:'w', tasks:['Apprendre Git & GitHub (commits, branches, pull requests)','Comprendre l\'architecture globale du projet']},
+      {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Python bases, fonctions, modules','Programmation Orientée Objet (POO)']},
+      {emoji:'📱', label:'Mobile (R3)', color:'p', tasks:['Dart bases : variables, listes, fonctions','Premiers concepts de POO Dart']},
+      {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Principes design : couleurs, typographie, UX','Découverte de Figma']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Réseaux TCP/IP, notion de sockets','Comprendre le protocole MQTT']},
+      {emoji:'🗄️', label:'BDD (R2)', color:'g', tasks:['Notion base de données relationnelle','SQL basique : SELECT, INSERT, UPDATE']},
+      {emoji:'🔒', label:'Sécurité (R5)', color:'g', tasks:['Linux terminal et commandes de base','Notion VPS et HTTPS']},
+    ]},
+    en: { month:'MONTH 1', title:'📚 Training & Analysis', roles:[
+      {emoji:'🌍', label:'Everyone', color:'w', tasks:['Learn Git & GitHub (commits, branches, pull requests)','Understand the global project architecture']},
+      {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Python basics, functions, modules','Object-Oriented Programming (OOP)']},
+      {emoji:'📱', label:'Mobile (R3)', color:'p', tasks:['Dart basics: variables, lists, functions','First OOP concepts in Dart']},
+      {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Design principles: colors, typography, UX','Figma introduction']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['TCP/IP networks, sockets concept','Understanding MQTT protocol']},
+      {emoji:'🗄️', label:'DB (R2)', color:'g', tasks:['Relational database concepts','Basic SQL: SELECT, INSERT, UPDATE']},
+      {emoji:'🔒', label:'Security (R5)', color:'g', tasks:['Linux terminal and basic commands','VPS and HTTPS concepts']},
+    ]},
+    ar: { month:'الشهر 1', title:'📚 التدريب والتحليل', roles:[
+      {emoji:'🌍', label:'الجميع', color:'w', tasks:['تعلم Git & GitHub (commits, branches)','فهم الهيكل العام للمشروع']},
+      {emoji:'🐍', label:'الخادم (R1)', color:'p', tasks:['أساسيات Python، الدوال والوحدات','البرمجة كائنية التوجه (OOP)']},
+      {emoji:'📱', label:'الموبايل (R3)', color:'p', tasks:['أساسيات Dart: المتغيرات، القوائم، الدوال','مفاهيم OOP في Dart']},
+      {emoji:'🎨', label:'التصميم (R6)', color:'a', tasks:['مبادئ التصميم: الألوان والطباعة وUX','مقدمة إلى Figma']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['شبكات TCP/IP ومفهوم Sockets','فهم بروتوكول MQTT']},
+      {emoji:'🗄️', label:'قاعدة البيانات (R2)', color:'g', tasks:['مفاهيم قواعد البيانات العلائقية','SQL الأساسي']},
+      {emoji:'🔒', label:'الأمان (R5)', color:'g', tasks:['أوامر Linux الأساسية','مفاهيم VPS و HTTPS']},
+    ]},
+  },
+  2: {
+    fr: { month:'MOIS 2', title:'🗺️ Maquettes & Base de Données', roles:[
+      {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Créer les wireframes sur papier','Passer sur Figma pour les maquettes interactives','Définir la charte graphique (couleurs, icônes, fonts)','Livrer les maquettes à l\'équipe Mobile et Backend']},
+      {emoji:'🗄️', label:'BDD (R2)', color:'g', tasks:['Concevoir le schéma de la base de données','Définir les tables : utilisateurs, bus, lignes, arrêts, GPS...','Installer et configurer PostgreSQL + PostGIS','Écrire les premières requêtes SQL']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Installer et tester le broker Mosquitto','Simuler des données GPS en local','Comprendre le format JSON des données Teltonika']},
+      {emoji:'🔒', label:'Sécurité (R5)', color:'g', tasks:['Configurer les variables .env','Installer un VPS de test','Notions de certificat SSL']},
+      {emoji:'🐍', label:'Backend (R1) — Formation', color:'p', tasks:['Continuer : POO avancée Python','Exercices FastAPI simples en local','Comprendre l\'architecture API REST']},
+      {emoji:'📱', label:'Mobile (R3) — Formation', color:'p', tasks:['Continuer : Widgets Flutter de base','Navigation entre écrans','Premiers appels API HTTP']},
+    ]},
+    en: { month:'MONTH 2', title:'🗺️ Mockups & Database', roles:[
+      {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Create wireframes on paper','Move to Figma for interactive mockups','Define visual charter (colors, icons, fonts)','Deliver mockups to Mobile and Backend teams']},
+      {emoji:'🗄️', label:'DB (R2)', color:'g', tasks:['Design the database schema','Define tables: users, buses, lines, stops, GPS...','Install and configure PostgreSQL + PostGIS','Write first SQL queries']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Install and test the Mosquitto broker','Simulate GPS data locally','Understand Teltonika JSON data format']},
+      {emoji:'🔒', label:'Security (R5)', color:'g', tasks:['Configure .env variables','Set up a test VPS','SSL certificate basics']},
+      {emoji:'🐍', label:'Backend (R1) — Training', color:'p', tasks:['Continue: advanced Python OOP','Simple FastAPI exercises locally','Understand REST API architecture']},
+      {emoji:'📱', label:'Mobile (R3) — Training', color:'p', tasks:['Continue: basic Flutter Widgets','Screen navigation','First HTTP API calls']},
+    ]},
+    ar: { month:'الشهر 2', title:'🗺️ النماذج وقاعدة البيانات', roles:[
+      {emoji:'🎨', label:'التصميم (R6)', color:'a', tasks:['إنشاء wireframes على الورق','الانتقال إلى Figma للنماذج التفاعلية','تحديد الهوية البصرية (ألوان، أيقونات)','تسليم النماذج لفريق الموبايل والخادم']},
+      {emoji:'🗄️', label:'قاعدة البيانات (R2)', color:'g', tasks:['تصميم مخطط قاعدة البيانات','تحديد الجداول: المستخدمون، الحافلات، الخطوط...','تثبيت PostgreSQL + PostGIS','كتابة أولى استعلامات SQL']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['تثبيت وتجربة broker Mosquitto','محاكاة بيانات GPS محلياً','فهم تنسيق JSON لبيانات Teltonika']},
+      {emoji:'🔒', label:'الأمان (R5)', color:'g', tasks:['إعداد متغيرات .env','تثبيت VPS للاختبار','أساسيات شهادات SSL']},
+      {emoji:'🐍', label:'الخادم (R1) — تدريب', color:'p', tasks:['متابعة: OOP متقدم في Python','تمارين FastAPI بسيطة محلياً']},
+      {emoji:'📱', label:'الموبايل (R3) — تدريب', color:'p', tasks:['متابعة: Widgets Flutter الأساسية','التنقل بين الشاشات']},
+    ]},
+  },
+  3: {
+    fr: { month:'MOIS 3', title:'🖥️ Prototype GPS + Serveur', roles:[
+      {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Installer FastAPI, créer le premier serveur','Créer les premières routes API (GET/POST)','Connecter FastAPI à PostgreSQL via psycopg2','Implémenter l\'authentification JWT (login/register)']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Recevoir les premières données GPS via MQTT','Parser les coordonnées latitude/longitude','Envoyer les données GPS au Backend via WebSocket','Tester la connexion Teltonika → MQTT → Backend']},
+      {emoji:'🗄️', label:'BDD (R2)', color:'g', tasks:['Stocker les positions GPS avec PostGIS','Créer les INDEX pour optimiser les requêtes géographiques','Tester les requêtes avec des données réelles']},
+      {emoji:'🔒', label:'Sécurité (R5)', color:'g', tasks:['Premiers tests unitaires avec pytest sur les APIs','Configurer les variables .env en production']},
+      {emoji:'📱', label:'Mobile (R3)', color:'p', tasks:['Créer les premiers écrans statiques : login, accueil','Navigation entre les écrans Flutter']},
+      {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Affiner les maquettes selon les retours du Backend','Créer les assets graphiques (icônes, illustrations)']},
+    ]},
+    en: { month:'MONTH 3', title:'🖥️ GPS Prototype + Server', roles:[
+      {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Install FastAPI, create first server','Create first API routes (GET/POST)','Connect FastAPI to PostgreSQL via psycopg2','Implement JWT authentication (login/register)']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Receive first GPS data via MQTT','Parse latitude/longitude coordinates','Send GPS data to Backend via WebSocket','Test Teltonika → MQTT → Backend connection']},
+      {emoji:'🗄️', label:'DB (R2)', color:'g', tasks:['Store GPS positions with PostGIS','Create INDEX for geographic query optimization','Test queries with real data']},
+      {emoji:'🔒', label:'Security (R5)', color:'g', tasks:['First unit tests with pytest on APIs','Configure .env variables for production']},
+      {emoji:'📱', label:'Mobile (R3)', color:'p', tasks:['Create first static screens: login, home','Navigation between Flutter screens']},
+      {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Refine mockups based on Backend feedback','Create graphic assets (icons, illustrations)']},
+    ]},
+    ar: { month:'الشهر 3', title:'🖥️ نموذج GPS + الخادم', roles:[
+      {emoji:'🐍', label:'الخادم (R1)', color:'p', tasks:['تثبيت FastAPI وإنشاء أول خادم','إنشاء أولى المسارات (GET/POST)','ربط FastAPI بـ PostgreSQL','تطبيق JWT للمصادقة']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['استقبال أولى بيانات GPS عبر MQTT','تحليل إحداثيات latitude/longitude','إرسال بيانات GPS للخادم عبر WebSocket']},
+      {emoji:'🗄️', label:'قاعدة البيانات (R2)', color:'g', tasks:['تخزين مواقع GPS مع PostGIS','إنشاء INDEX للاستعلامات الجغرافية']},
+      {emoji:'🔒', label:'الأمان (R5)', color:'g', tasks:['أولى الاختبارات مع pytest','إعداد متغيرات .env']},
+      {emoji:'📱', label:'الموبايل (R3)', color:'p', tasks:['إنشاء أولى الشاشات: تسجيل الدخول، الرئيسية']},
+      {emoji:'🎨', label:'التصميم (R6)', color:'a', tasks:['تحسين النماذج بناءً على ملاحظات الخادم']},
+    ]},
+  },
+  4: {
+    fr: { month:'MOIS 4', title:'⚙️ Backend Complet', roles:[
+      {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Finaliser toutes les APIs REST (bus, lignes, arrêts, utilisateurs)','Implémenter le WebSocket pour le suivi en temps réel','Connecter le flux GPS au WebSocket','Documenter toutes les APIs']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Tester la chaîne complète : Teltonika → MQTT → Backend → WebSocket','Calculer l\'ETA (temps d\'arrivée estimé)','Optimiser la fréquence d\'envoi des données GPS']},
+      {emoji:'🗄️', label:'BDD (R2)', color:'g', tasks:['Finaliser le schéma complet de la BDD','Ajouter les données de test (bus, lignes, arrêts)','Optimiser les performances des requêtes lentes']},
+      {emoji:'🔒', label:'Sécurité (R5)', color:'g', tasks:['Tester toutes les APIs avec pytest','Mettre en place le rate limiting avec SlowAPI','Configurer le VPS pour le déploiement futur']},
+      {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Livrer les maquettes finales à l\'équipe Mobile','Adapter les designs selon les retours du Backend']},
+      {emoji:'📱', label:'Mobile (R3)', color:'p', tasks:['Intégrer les APIs Backend dans l\'application','Afficher les données réelles dans les écrans Flutter']},
+    ]},
+    en: { month:'MONTH 4', title:'⚙️ Full Backend', roles:[
+      {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Finalize all REST APIs (buses, routes, stops, users)','Implement WebSocket for real-time tracking','Connect GPS stream to WebSocket','Document all APIs']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Test full chain: Teltonika → MQTT → Backend → WebSocket','Calculate ETA (estimated arrival time)','Optimize GPS data sending frequency']},
+      {emoji:'🗄️', label:'DB (R2)', color:'g', tasks:['Finalize complete DB schema','Add test data (buses, routes, stops)','Optimize slow query performance']},
+      {emoji:'🔒', label:'Security (R5)', color:'g', tasks:['Test all APIs with pytest','Set up rate limiting with SlowAPI','Configure VPS for future deployment']},
+      {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Deliver final mockups to Mobile team','Adjust designs based on Backend feedback']},
+      {emoji:'📱', label:'Mobile (R3)', color:'p', tasks:['Integrate Backend APIs into the app','Display real data in Flutter screens']},
+    ]},
+    ar: { month:'الشهر 4', title:'⚙️ الخادم الكامل', roles:[
+      {emoji:'🐍', label:'الخادم (R1)', color:'p', tasks:['إنهاء جميع APIs REST','تطبيق WebSocket للتتبع الفوري','توثيق جميع APIs']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['اختبار السلسلة الكاملة: Teltonika → MQTT → Backend → WebSocket','حساب ETA (وقت الوصال المتوقع)']},
+      {emoji:'🗄️', label:'قاعدة البيانات (R2)', color:'g', tasks:['إنهاء المخطط الكامل لقاعدة البيانات','إضافة بيانات اختبارية']},
+      {emoji:'🔒', label:'الأمان (R5)', color:'g', tasks:['اختبار جميع APIs مع pytest','تطبيق rate limiting مع SlowAPI']},
+      {emoji:'🎨', label:'التصميم (R6)', color:'a', tasks:['تسليم النماذج النهائية لفريق الموبايل']},
+      {emoji:'📱', label:'الموبايل (R3)', color:'p', tasks:['دمج APIs الخادم في التطبيق']},
+    ]},
+  },
+  5: {
+    fr: { month:'MOIS 5', title:'📱 Application Mobile', roles:[
+      {emoji:'📱', label:'Mobile (R3)', color:'p', tasks:['Intégrer Google Maps avec affichage des bus en temps réel','Connecter l\'app au WebSocket pour le suivi live','Développer tous les écrans : login, carte, lignes, profil','Implémenter les notifications Firebase (bus qui approche)','Calculer et afficher l\'ETA dans l\'interface']},
+      {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Vérifier la conformité de l\'app avec les maquettes Figma','Corriger les détails visuels (espacements, couleurs, icônes)','Tester l\'expérience utilisateur sur différents téléphones']},
+      {emoji:'🔒', label:'Sécurité (R5)', color:'g', tasks:['Tester l\'app sur scénarios extrêmes (pas de GPS, connexion lente)','Vérifier la sécurité des données transmises']},
+      {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Corriger les bugs remontés par l\'équipe Mobile','Optimiser les performances des APIs les plus utilisées']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Tester le WebSocket en conditions réelles','Vérifier la précision des données GPS transmises']},
+      {emoji:'🗄️', label:'BDD (R2)', color:'g', tasks:['Corriger les bugs de données remontés','Vérifier la cohérence des données en production']},
+    ]},
+    en: { month:'MONTH 5', title:'📱 Mobile Application', roles:[
+      {emoji:'📱', label:'Mobile (R3)', color:'p', tasks:['Integrate Google Maps with real-time bus display','Connect app to WebSocket for live tracking','Develop all screens: login, map, routes, profile','Implement Firebase notifications (bus approaching)','Calculate and display ETA in the interface']},
+      {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Verify app compliance with Figma mockups','Fix visual details (spacing, colors, icons)','Test user experience on different phones']},
+      {emoji:'🔒', label:'Security (R5)', color:'g', tasks:['Test app on extreme scenarios (no GPS, slow connection)','Check security of transmitted data']},
+      {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Fix bugs reported by Mobile team','Optimize most-used API performance']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Test WebSocket in real conditions','Verify GPS data transmission accuracy']},
+      {emoji:'🗄️', label:'DB (R2)', color:'g', tasks:['Fix data bugs reported','Check data consistency in production']},
+    ]},
+    ar: { month:'الشهر 5', title:'📱 تطبيق الجوال', roles:[
+      {emoji:'📱', label:'الموبايل (R3)', color:'p', tasks:['دمج Google Maps مع عرض الحافلات الفوري','ربط التطبيق بـ WebSocket','تطوير جميع الشاشات: خريطة، خطوط، إشعارات','تطبيق Firebase للإشعارات','عرض ETA في الواجهة']},
+      {emoji:'🎨', label:'التصميم (R6)', color:'a', tasks:['التحقق من مطابقة التطبيق للنماذج','تصحيح التفاصيل البصرية','اختبار تجربة المستخدم على هواتف مختلفة']},
+      {emoji:'🔒', label:'الأمان (R5)', color:'g', tasks:['اختبار السيناريوهات القصوى (بدون GPS)']},
+      {emoji:'🐍', label:'الخادم (R1)', color:'p', tasks:['تصحيح الأخطاء المُبلَّغ عنها من فريق الموبايل']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['اختبار WebSocket في ظروف حقيقية']},
+      {emoji:'🗄️', label:'قاعدة البيانات (R2)', color:'g', tasks:['تصحيح أخطاء البيانات']},
+    ]},
+  },
+  6: {
+    fr: { month:'MOIS 6', title:'🚀 Tests & Lancement', roles:[
+      {emoji:'🔒', label:'Sécurité (R5)', color:'g', tasks:['Audit de sécurité complet (JWT, HTTPS, injections SQL...)','Déployer l\'API sur le VPS en production','Configurer SSL/Let\'s Encrypt pour HTTPS','Tests de charge et de performance']},
+      {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Optimiser les performances finales du serveur','Documentation complète de toutes les APIs','Tests d\'intégration final Backend ↔ BDD ↔ GPS']},
+      {emoji:'📱', label:'Mobile (R3)', color:'p', tasks:['Préparer l\'APK Android final','Tests sur différents modèles de téléphones','Corriger les derniers bugs visuels']},
+      {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Préparer les assets finaux : icône app, splash screen','Vérification visuelle finale de toute l\'app']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Test grandeur nature avec un vrai appareil GPS','Validation de la précision en conditions réelles']},
+      {emoji:'🗄️', label:'BDD (R2)', color:'g', tasks:['Vérification finale de toutes les données','Configurer les sauvegardes automatiques (backup)','Nettoyage des données de test']},
+    ]},
+    en: { month:'MONTH 6', title:'🚀 Tests & Launch', roles:[
+      {emoji:'🔒', label:'Security (R5)', color:'g', tasks:['Full security audit (JWT, HTTPS, SQL injections...)','Deploy API to VPS in production','Configure SSL/Let\'s Encrypt for HTTPS','Load and performance testing']},
+      {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Optimize final server performance','Complete documentation of all APIs','Final integration tests Backend ↔ DB ↔ GPS']},
+      {emoji:'📱', label:'Mobile (R3)', color:'p', tasks:['Prepare final Android APK','Tests on different phone models','Fix last visual bugs']},
+      {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Prepare final assets: app icon, splash screen','Final visual check of the entire app']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Real-world test with actual GPS device','Validate accuracy in real conditions']},
+      {emoji:'🗄️', label:'DB (R2)', color:'g', tasks:['Final check of all data','Configure automatic backups','Clean up test data']},
+    ]},
+    ar: { month:'الشهر 6', title:'🚀 الاختبار والإطلاق', roles:[
+      {emoji:'🔒', label:'الأمان (R5)', color:'g', tasks:['تدقيق أمني كامل','نشر API على VPS الإنتاجي','إعداد SSL/HTTPS']},
+      {emoji:'🐍', label:'الخادم (R1)', color:'p', tasks:['تحسين الأداء النهائي','توثيق كامل لجميع APIs']},
+      {emoji:'📱', label:'الموبايل (R3)', color:'p', tasks:['إعداد APK النهائي لـ Android','اختبار على هواتف مختلفة']},
+      {emoji:'🎨', label:'التصميم (R6)', color:'a', tasks:['تحضير أصول التطبيق النهائية: أيقونة، splash screen']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['اختبار حقيقي مع جهاز GPS فعلي']},
+      {emoji:'🗄️', label:'قاعدة البيانات (R2)', color:'g', tasks:['التحقق النهائي من البيانات','إعداد النسخ الاحتياطي التلقائي']},
+    ]},
+  }
+};
+
+function getLang(){return document.body.className||'fr';}
+
+/* ── MODAL PLANNING ── */
+function openModal(month){
+  const lang=getLang();
+  const d=planData[month][lang];
+  document.getElementById('modalMonth').textContent=d.month;
+  document.getElementById('modalTitle').textContent=d.title;
+  let html='';
+  d.roles.forEach(role=>{
+    html+=`<div class="modal-role-block">
+      <div class="modal-role-label">
+        <span class="modal-role-emoji">${role.emoji}</span>
+        <span>${role.label}</span>
+      </div>
+      <div class="modal-tasks">`;
+    role.tasks.forEach(task=>{
+      html+=`<div class="modal-task"><div class="modal-task-dot ${role.color}"></div><span>${task}</span></div>`;
+    });
+    html+=`</div></div>`;
+  });
+  document.getElementById('modalBody').innerHTML=html;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeModalBtn(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function closeModal(e){
+  if(e.target===document.getElementById('modalOverlay'))closeModalBtn();
+}
+
+/* ── MODAL CONTACT ── */
+function openContactModal(){
+  // Reset form to initial state
+  const body = document.getElementById('contactModalBody');
+  if(!document.getElementById('contactFormModal')){
+    body.innerHTML = `
+      <form id="contactFormModal" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="aaaad1b6-ffd7-4c4a-b247-7386c3db12dc">
+        <input type="hidden" name="subject" value="📬 Nouveau message depuis Trajet Tranquille">
+        <input type="hidden" name="from_name" value="Trajet Tranquille Contact">
+        <div class="contact-group">
+          <label class="contact-label"><span data-fr>Nom complet *</span><span data-en>Full Name *</span><span data-ar>الاسم الكامل *</span></label>
+          <input type="text" name="name" required class="contact-input" placeholder="Jean Dupont">
+        </div>
+        <div class="contact-group">
+          <label class="contact-label">Email *</label>
+          <input type="email" name="email" required class="contact-input" placeholder="jean@exemple.com">
+        </div>
+        <div class="contact-group">
+          <label class="contact-label"><span data-fr>Type de demande *</span><span data-en>Request Type *</span><span data-ar>نوع الطلب *</span></label>
+          <select name="Type_de_demande" required class="contact-input">
+            <option value="">-- Select --</option>
+            <option value="🚀 Nouveau projet">🚀 Nouveau projet / New project</option>
+            <option value="ℹ️ Information">ℹ️ Information</option>
+            <option value="🤝 Collaboration">🤝 Collaboration</option>
+            <option value="📝 Autre">📝 Autre / Other</option>
+          </select>
+        </div>
+        <div class="contact-group">
+          <label class="contact-label">Message *</label>
+          <textarea name="message" required rows="4" class="contact-input" placeholder="Votre message..." style="resize:vertical;"></textarea>
+        </div>
+        <button type="submit" class="contact-submit" id="contactSubmitBtn">
+          <span data-fr>📤 Envoyer le message</span><span data-en>📤 Send Message</span><span data-ar>📤 إرسال الرسالة</span>
+        </button>
+      </form>`;
+    attachContactForm();
+  }
+  document.getElementById('contactModalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeContactModalBtn(){
+  document.getElementById('contactModalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function closeContactModal(e){
+  if(e.target===document.getElementById('contactModalOverlay'))closeContactModalBtn();
+}
+
+function attachContactForm(){
+  const form = document.getElementById('contactFormModal');
+  if(!form) return;
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const btn = document.getElementById('contactSubmitBtn');
+    const originalHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '⏳ ...';
+    try {
+      const res = await fetch('https://api.web3forms.com/submit',{method:'POST',body:new FormData(form)});
+      const data = await res.json();
+      if(data.success){
+        document.getElementById('contactModalBody').innerHTML=`
+          <div style="text-align:center;padding:40px 20px;">
+            <div style="font-size:4rem;margin-bottom:20px;animation:fadeUp .5s ease both;">✅</div>
+            <h3 style="font-family:'Syne',sans-serif;color:var(--green);font-size:1.3rem;margin-bottom:12px;">
+              ${getLang()==='ar'?'تم إرسال الرسالة!':getLang()==='en'?'Message Sent!':'Message envoyé !'}
+            </h3>
+            <p style="color:var(--muted);font-size:.85rem;line-height:1.7;margin-bottom:24px;">
+              ${getLang()==='ar'?'شكراً لتواصلك، سنرد عليك قريباً.':getLang()==='en'?'Thank you! We will get back to you soon.':'Merci ! Nous vous répondrons bientôt.'}
+            </p>
+            <button onclick="closeContactModalBtn()" style="padding:12px 32px;background:linear-gradient(135deg,var(--primary),#8b7cf6);color:#fff;border:none;border-radius:50px;cursor:pointer;font-weight:700;font-size:.9rem;font-family:'DM Sans',sans-serif;box-shadow:0 0 20px rgba(108,99,255,.4);transition:all .3s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">OK</button>
+          </div>`;
+      } else {
+        btn.disabled=false;
+        btn.innerHTML=originalHTML;
+        alert('❌ Erreur, veuillez réessayer.');
+      }
+    } catch {
+      btn.disabled=false;
+      btn.innerHTML=originalHTML;
+      alert('❌ Erreur de connexion.');
+    }
+  });
+}
+
+attachContactForm();
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    closeModalBtn();
+    closeContactModalBtn();
+  }
+});
+</script>
+</body>
+</html>
