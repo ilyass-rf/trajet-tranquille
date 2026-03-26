@@ -193,7 +193,7 @@ body.fr span[data-fr]{display:inline;}body.en span[data-en]{display:inline;}body
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes orbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-18px) scale(1.05)}}
 
-/*@media(max-width:765px){
+/*@media(max-width:900px){
   .content-grid{grid-template-columns:1fr;}
   .section{padding:80px 20px 50px;}
   .sec-header{flex-direction:column;gap:14px;}
@@ -674,7 +674,7 @@ body.fr span[data-fr]{display:inline;}body.en span[data-en]{display:inline;}body
         <div class="step-item" onclick="toggleStep(this)"><div class="step-check">✓</div><div class="step-num" style="background:rgba(239,68,68,.15);color:var(--c4)">3</div><div><div class="step-title">WebSocket</div><div class="step-desc"><span data-fr>Connexion persistante bidirectionnelle</span><span data-en>Persistent bidirectional connection</span><span data-ar>اتصال ثنائي الاتجاه</span></div></div></div>
         <div class="step-item" onclick="toggleStep(this)"><div class="step-check">✓</div><div class="step-num" style="background:rgba(239,68,68,.15);color:var(--c4)">4</div><div><div class="step-title">MQTT</div><div class="step-desc">Publish/Subscribe, topics, QoS</div></div></div>
         <div class="step-item" onclick="toggleStep(this)"><div class="step-check">✓</div><div class="step-num" style="background:rgba(239,68,68,.15);color:var(--c4)">5</div><div><div class="step-title">Mosquitto</div><div class="step-desc"><span data-fr>Installation, mosquitto_pub/sub</span><span data-en>Installation, mosquitto_pub/sub</span><span data-ar>التثبيت، mosquitto_pub/sub</span></div></div></div>
-        <div class="step-item" onclick="toggleStep(this)"><div class="step-check">✓</div><div class="step-num" style="background:rgba(239,68,68,.15);color:var(--c4)">6</div><div><div class="step-title">GPS JSON</div><div class="step-desc"><span data-fr>lat/lng, vitesse, Teltonika codec</span><span data-en>lat/lng, speed, Teltonika codec</span><span data-ar>lat/lng، السرعة، Teltonika</span></div></div></div>
+        <div class="step-item" onclick="toggleStep(this)"><div class="step-check">✓</div><div class="step-num" style="background:rgba(239,68,68,.15);color:var(--c4)">6</div><div><div class="step-title">GPS JSON — NEO-6M</div><div class="step-desc"><span data-fr>lat/lng, vitesse, câblage NEO-6M → ESP32/Arduino</span><span data-en>lat/lng, speed, NEO-6M → ESP32/Arduino wiring</span><span data-ar>lat/lng، السرعة، توصيل NEO-6M بـ ESP32/Arduino</span></div></div></div>
         <div class="step-item" onclick="toggleStep(this)"><div class="step-check">✓</div><div class="step-num" style="background:rgba(239,68,68,.15);color:var(--c4)">7</div><div><div class="step-title"><span data-fr>Intégration FastAPI</span><span data-en>FastAPI Integration</span><span data-ar>دمج FastAPI</span></div><div class="step-desc">MQTT → FastAPI → WebSocket</div></div></div>
       </div>
     </div>
@@ -685,6 +685,10 @@ body.fr span[data-fr]{display:inline;}body.en span[data-en]{display:inline;}body
         <div class="tool-item"><div class="tool-icon">🐍</div><div><div class="tool-name">paho-mqtt</div><div class="tool-desc">pip install</div></div></div>
         <div class="tool-item"><div class="tool-icon">📱</div><div><div class="tool-name">MQTT Explorer</div><div class="tool-desc">GUI</div></div></div>
         <div class="tool-item"><div class="tool-icon">🔌</div><div><div class="tool-name">websockets</div><div class="tool-desc">pip install</div></div></div>
+        <div class="tool-item"><div class="tool-icon">⚡</div><div><div class="tool-name">Arduino IDE</div><div class="tool-desc">arduino.cc</div></div></div>
+        <div class="tool-item"><div class="tool-icon">📡</div><div><div class="tool-name">TinyGPS++</div><div class="tool-desc">Librairie GPS</div></div></div>
+        <div class="tool-item"><div class="tool-icon">📶</div><div><div class="tool-name">PubSubClient</div><div class="tool-desc">MQTT ESP32</div></div></div>
+        <div class="tool-item"><div class="tool-icon">🔧</div><div><div class="tool-name">Driver CH340</div><div class="tool-desc">Arduino UNO</div></div></div>
       </div>
     </div>
   </div>
@@ -694,7 +698,9 @@ body.fr span[data-fr]{display:inline;}body.en span[data-en]{display:inline;}body
       <div class="resources">
         <div class="resource-item"><span class="resource-type" style="background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)">YT</span><span class="resource-name">MQTT Explained — Steve's Guide</span><span class="resource-lang">🇬🇧</span></div>
         <div class="resource-item"><span class="resource-type" style="background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)">YT</span><span class="resource-name">Mosquitto MQTT Broker Setup</span><span class="resource-lang">🇬🇧</span></div>
-        <div class="resource-item"><span class="resource-type" style="background:rgba(56,189,248,.15);color:var(--blue);border:1px solid rgba(56,189,248,.3)">DOC</span><span class="resource-name">Teltonika GPS Codec Wiki</span><span class="resource-lang">wiki.teltonika</span></div>
+        <div class="resource-item"><span class="resource-type" style="background:rgba(56,189,248,.15);color:var(--blue);border:1px solid rgba(56,189,248,.3)">DOC</span><span class="resource-name">TinyGPS++ Documentation</span><span class="resource-lang">github.com</span></div>
+        <div class="resource-item"><span class="resource-type" style="background:rgba(56,189,248,.15);color:var(--blue);border:1px solid rgba(56,189,248,.3)">DOC</span><span class="resource-name">NEO-6M Datasheet</span><span class="resource-lang">u-blox.com</span></div>
+        <div class="resource-item"><span class="resource-type" style="background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)">YT</span><span class="resource-name">ESP32 + GPS NEO-6M + MQTT Tutorial</span><span class="resource-lang">🇬🇧</span></div>
         <div class="resource-item"><span class="resource-type" style="background:rgba(56,189,248,.15);color:var(--blue);border:1px solid rgba(56,189,248,.3)">DOC</span><span class="resource-name">paho-mqtt docs</span><span class="resource-lang">eclipse.org</span></div>
       </div>
     </div>
