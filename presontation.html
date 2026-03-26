@@ -643,7 +643,7 @@ const planData = {
     fr: { month:'MOIS 2', title:'🗺️ Maquettes & Base de Données', roles:[
       {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Créer les wireframes sur papier','Passer sur Figma pour les maquettes interactives','Définir la charte graphique (couleurs, icônes, fonts)','Livrer les maquettes à l\'équipe Mobile et Backend']},
       {emoji:'🗄️', label:'BDD (R2)', color:'g', tasks:['Concevoir le schéma de la base de données','Définir les tables : utilisateurs, bus, lignes, arrêts, GPS...','Installer et configurer PostgreSQL + PostGIS','Écrire les premières requêtes SQL']},
-      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Installer et tester le broker Mosquitto','Simuler des données GPS en local','Comprendre le format JSON des données Teltonika']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Installer Arduino IDE','Câbler NEO-6M → ESP32','Tester la réception GPS (afficher lat/lng sur Serial Monitor)','Installer Mosquitto en local']},
       {emoji:'🔒', label:'Sécurité (R5)', color:'g', tasks:['Configurer les variables .env','Installer un VPS de test','Notions de certificat SSL']},
       {emoji:'🐍', label:'Backend (R1) — Formation', color:'p', tasks:['Continuer : POO avancée Python','Exercices FastAPI simples en local','Comprendre l\'architecture API REST']},
       {emoji:'📱', label:'Mobile (R3) — Formation', color:'p', tasks:['Continuer : Widgets Flutter de base','Navigation entre écrans','Premiers appels API HTTP']},
@@ -651,7 +651,7 @@ const planData = {
     en: { month:'MONTH 2', title:'🗺️ Mockups & Database', roles:[
       {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Create wireframes on paper','Move to Figma for interactive mockups','Define visual charter (colors, icons, fonts)','Deliver mockups to Mobile and Backend teams']},
       {emoji:'🗄️', label:'DB (R2)', color:'g', tasks:['Design the database schema','Define tables: users, buses, lines, stops, GPS...','Install and configure PostgreSQL + PostGIS','Write first SQL queries']},
-      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Install and test the Mosquitto broker','Simulate GPS data locally','Understand Teltonika JSON data format']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Install Arduino IDE','Wire NEO-6M → ESP32','Test GPS reception (display lat/lng on Serial Monitor)','Install Mosquitto locally']},
       {emoji:'🔒', label:'Security (R5)', color:'g', tasks:['Configure .env variables','Set up a test VPS','SSL certificate basics']},
       {emoji:'🐍', label:'Backend (R1) — Training', color:'p', tasks:['Continue: advanced Python OOP','Simple FastAPI exercises locally','Understand REST API architecture']},
       {emoji:'📱', label:'Mobile (R3) — Training', color:'p', tasks:['Continue: basic Flutter Widgets','Screen navigation','First HTTP API calls']},
@@ -659,7 +659,7 @@ const planData = {
     ar: { month:'الشهر 2', title:'🗺️ النماذج وقاعدة البيانات', roles:[
       {emoji:'🎨', label:'التصميم (R6)', color:'a', tasks:['إنشاء wireframes على الورق','الانتقال إلى Figma للنماذج التفاعلية','تحديد الهوية البصرية (ألوان، أيقونات)','تسليم النماذج لفريق الموبايل والخادم']},
       {emoji:'🗄️', label:'قاعدة البيانات (R2)', color:'g', tasks:['تصميم مخطط قاعدة البيانات','تحديد الجداول: المستخدمون، الحافلات، الخطوط...','تثبيت PostgreSQL + PostGIS','كتابة أولى استعلامات SQL']},
-      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['تثبيت وتجربة broker Mosquitto','محاكاة بيانات GPS محلياً','فهم تنسيق JSON لبيانات Teltonika']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['تثبيت Arduino IDE','توصيل NEO-6M بـ ESP32','اختبار استقبال GPS (عرض lat/lng على Serial Monitor)','تثبيت Mosquitto محلياً']},
       {emoji:'🔒', label:'الأمان (R5)', color:'g', tasks:['إعداد متغيرات .env','تثبيت VPS للاختبار','أساسيات شهادات SSL']},
       {emoji:'🐍', label:'الخادم (R1) — تدريب', color:'p', tasks:['متابعة: OOP متقدم في Python','تمارين FastAPI بسيطة محلياً']},
       {emoji:'📱', label:'الموبايل (R3) — تدريب', color:'p', tasks:['متابعة: Widgets Flutter الأساسية','التنقل بين الشاشات']},
@@ -668,7 +668,7 @@ const planData = {
   3: {
     fr: { month:'MOIS 3', title:'🖥️ Prototype GPS + Serveur', roles:[
       {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Installer FastAPI, créer le premier serveur','Créer les premières routes API (GET/POST)','Connecter FastAPI à PostgreSQL via psycopg2','Implémenter l\'authentification JWT (login/register)']},
-      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Recevoir les premières données GPS via MQTT','Parser les coordonnées latitude/longitude','Envoyer les données GPS au Backend via WebSocket','Tester la connexion Teltonika → MQTT → Backend']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Coder l\'envoi des données GPS via MQTT','Tester la connexion ESP32 → Mosquitto → FastAPI']},
       {emoji:'🗄️', label:'BDD (R2)', color:'g', tasks:['Stocker les positions GPS avec PostGIS','Créer les INDEX pour optimiser les requêtes géographiques','Tester les requêtes avec des données réelles']},
       {emoji:'🔒', label:'Sécurité (R5)', color:'g', tasks:['Premiers tests unitaires avec pytest sur les APIs','Configurer les variables .env en production']},
       {emoji:'📱', label:'Mobile (R3)', color:'p', tasks:['Créer les premiers écrans statiques : login, accueil','Navigation entre les écrans Flutter']},
@@ -676,7 +676,7 @@ const planData = {
     ]},
     en: { month:'MONTH 3', title:'🖥️ GPS Prototype + Server', roles:[
       {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Install FastAPI, create first server','Create first API routes (GET/POST)','Connect FastAPI to PostgreSQL via psycopg2','Implement JWT authentication (login/register)']},
-      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Receive first GPS data via MQTT','Parse latitude/longitude coordinates','Send GPS data to Backend via WebSocket','Test Teltonika → MQTT → Backend connection']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Code GPS data sending via MQTT','Test ESP32 → Mosquitto → FastAPI connection']},      
       {emoji:'🗄️', label:'DB (R2)', color:'g', tasks:['Store GPS positions with PostGIS','Create INDEX for geographic query optimization','Test queries with real data']},
       {emoji:'🔒', label:'Security (R5)', color:'g', tasks:['First unit tests with pytest on APIs','Configure .env variables for production']},
       {emoji:'📱', label:'Mobile (R3)', color:'p', tasks:['Create first static screens: login, home','Navigation between Flutter screens']},
@@ -684,7 +684,7 @@ const planData = {
     ]},
     ar: { month:'الشهر 3', title:'🖥️ نموذج GPS + الخادم', roles:[
       {emoji:'🐍', label:'الخادم (R1)', color:'p', tasks:['تثبيت FastAPI وإنشاء أول خادم','إنشاء أولى المسارات (GET/POST)','ربط FastAPI بـ PostgreSQL','تطبيق JWT للمصادقة']},
-      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['استقبال أولى بيانات GPS عبر MQTT','تحليل إحداثيات latitude/longitude','إرسال بيانات GPS للخادم عبر WebSocket']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['برمجة إرسال بيانات GPS عبر MQTT','اختبار اتصال ESP32 → Mosquitto → FastAPI']},
       {emoji:'🗄️', label:'قاعدة البيانات (R2)', color:'g', tasks:['تخزين مواقع GPS مع PostGIS','إنشاء INDEX للاستعلامات الجغرافية']},
       {emoji:'🔒', label:'الأمان (R5)', color:'g', tasks:['أولى الاختبارات مع pytest','إعداد متغيرات .env']},
       {emoji:'📱', label:'الموبايل (R3)', color:'p', tasks:['إنشاء أولى الشاشات: تسجيل الدخول، الرئيسية']},
@@ -694,7 +694,7 @@ const planData = {
   4: {
     fr: { month:'MOIS 4', title:'⚙️ Backend Complet', roles:[
       {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Finaliser toutes les APIs REST (bus, lignes, arrêts, utilisateurs)','Implémenter le WebSocket pour le suivi en temps réel','Connecter le flux GPS au WebSocket','Documenter toutes les APIs']},
-      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Tester la chaîne complète : Teltonika → MQTT → Backend → WebSocket','Calculer l\'ETA (temps d\'arrivée estimé)','Optimiser la fréquence d\'envoi des données GPS']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Tester la chaîne complète : ESP32 → Mosquitto → FastAPI → WebSocket','Calculer l\'ETA (temps d\'arrivée estimé)','Optimiser la fréquence d\'envoi des données GPS']},
       {emoji:'🗄️', label:'BDD (R2)', color:'g', tasks:['Finaliser le schéma complet de la BDD','Ajouter les données de test (bus, lignes, arrêts)','Optimiser les performances des requêtes lentes']},
       {emoji:'🔒', label:'Sécurité (R5)', color:'g', tasks:['Tester toutes les APIs avec pytest','Mettre en place le rate limiting avec SlowAPI','Configurer le VPS pour le déploiement futur']},
       {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Livrer les maquettes finales à l\'équipe Mobile','Adapter les designs selon les retours du Backend']},
@@ -702,7 +702,7 @@ const planData = {
     ]},
     en: { month:'MONTH 4', title:'⚙️ Full Backend', roles:[
       {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Finalize all REST APIs (buses, routes, stops, users)','Implement WebSocket for real-time tracking','Connect GPS stream to WebSocket','Document all APIs']},
-      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Test full chain: Teltonika → MQTT → Backend → WebSocket','Calculate ETA (estimated arrival time)','Optimize GPS data sending frequency']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Test full chain: ESP32 → Mosquitto → FastAPI → WebSocket','Calculate ETA (estimated arrival time)','Optimize GPS data sending frequency']},
       {emoji:'🗄️', label:'DB (R2)', color:'g', tasks:['Finalize complete DB schema','Add test data (buses, routes, stops)','Optimize slow query performance']},
       {emoji:'🔒', label:'Security (R5)', color:'g', tasks:['Test all APIs with pytest','Set up rate limiting with SlowAPI','Configure VPS for future deployment']},
       {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Deliver final mockups to Mobile team','Adjust designs based on Backend feedback']},
@@ -710,7 +710,7 @@ const planData = {
     ]},
     ar: { month:'الشهر 4', title:'⚙️ الخادم الكامل', roles:[
       {emoji:'🐍', label:'الخادم (R1)', color:'p', tasks:['إنهاء جميع APIs REST','تطبيق WebSocket للتتبع الفوري','توثيق جميع APIs']},
-      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['اختبار السلسلة الكاملة: Teltonika → MQTT → Backend → WebSocket','حساب ETA (وقت الوصول المتوقع)']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['اختبار السلسلة الكاملة: ESP32 → Mosquitto → FastAPI → WebSocket','حساب ETA (وقت الوصول المتوقع)','تحسين تردد إرسال بيانات GPS']},
       {emoji:'🗄️', label:'قاعدة البيانات (R2)', color:'g', tasks:['إنهاء المخطط الكامل لقاعدة البيانات','إضافة بيانات اختبارية']},
       {emoji:'🔒', label:'الأمان (R5)', color:'g', tasks:['اختبار جميع APIs مع pytest','تطبيق rate limiting مع SlowAPI']},
       {emoji:'🎨', label:'التصميم (R6)', color:'a', tasks:['تسليم النماذج النهائية لفريق الموبايل']},
@@ -731,7 +731,7 @@ const planData = {
       {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Verify app compliance with Figma mockups','Fix visual details (spacing, colors, icons)','Test user experience on different phones']},
       {emoji:'🔒', label:'Security (R5)', color:'g', tasks:['Test app on extreme scenarios (no GPS, slow connection)','Check security of transmitted data']},
       {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Fix bugs reported by Mobile team','Optimize most-used API performance']},
-      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Test WebSocket in real conditions','Verify GPS data transmission accuracy']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Real condition tests with NEO-6M + ESP32','Verify GPS data transmission accuracy']},
       {emoji:'🗄️', label:'DB (R2)', color:'g', tasks:['Fix data bugs reported','Check data consistency in production']},
     ]},
     ar: { month:'الشهر 5', title:'📱 تطبيق الجوال', roles:[
@@ -739,7 +739,7 @@ const planData = {
       {emoji:'🎨', label:'التصميم (R6)', color:'a', tasks:['التحقق من مطابقة التطبيق للنماذج','تصحيح التفاصيل البصرية','اختبار تجربة المستخدم على هواتف مختلفة']},
       {emoji:'🔒', label:'الأمان (R5)', color:'g', tasks:['اختبار السيناريوهات القصوى (بدون GPS)']},
       {emoji:'🐍', label:'الخادم (R1)', color:'p', tasks:['تصحيح الأخطاء المُبلَّغ عنها من فريق الموبايل']},
-      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['اختبار WebSocket في ظروف حقيقية']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['اختبارات في ظروف حقيقية مع NEO-6M + ESP32','التحقق من دقة بيانات GPS المرسلة']},
       {emoji:'🗄️', label:'قاعدة البيانات (R2)', color:'g', tasks:['تصحيح أخطاء البيانات']},
     ]},
   },
@@ -749,7 +749,7 @@ const planData = {
       {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Optimiser les performances finales du serveur','Documentation complète de toutes les APIs','Tests d\'intégration final Backend ↔ BDD ↔ GPS']},
       {emoji:'📱', label:'Mobile (R3)', color:'p', tasks:['Préparer l\'APK Android final','Tests sur différents modèles de téléphones','Corriger les derniers bugs visuels']},
       {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Préparer les assets finaux : icône app, splash screen','Vérification visuelle finale de toute l\'app']},
-      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Test grandeur nature avec un vrai appareil GPS','Validation de la précision en conditions réelles']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Test grandeur nature avec NEO-6M + ESP32/Arduino','Valider la précision GPS en conditions réelles']},
       {emoji:'🗄️', label:'BDD (R2)', color:'g', tasks:['Vérification finale de toutes les données','Configurer les sauvegardes automatiques (backup)','Nettoyage des données de test']},
     ]},
     en: { month:'MONTH 6', title:'🚀 Tests & Launch', roles:[
@@ -757,7 +757,7 @@ const planData = {
       {emoji:'🐍', label:'Backend (R1)', color:'p', tasks:['Optimize final server performance','Complete documentation of all APIs','Final integration tests Backend ↔ DB ↔ GPS']},
       {emoji:'📱', label:'Mobile (R3)', color:'p', tasks:['Prepare final Android APK','Tests on different phone models','Fix last visual bugs']},
       {emoji:'🎨', label:'Design (R6)', color:'a', tasks:['Prepare final assets: app icon, splash screen','Final visual check of the entire app']},
-      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Real-world test with actual GPS device','Validate accuracy in real conditions']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['Real-world test with NEO-6M + ESP32/Arduino','Validate GPS accuracy in real conditions']},
       {emoji:'🗄️', label:'DB (R2)', color:'g', tasks:['Final check of all data','Configure automatic backups','Clean up test data']},
     ]},
     ar: { month:'الشهر 6', title:'🚀 الاختبار والإطلاق', roles:[
@@ -765,7 +765,7 @@ const planData = {
       {emoji:'🐍', label:'الخادم (R1)', color:'p', tasks:['تحسين الأداء النهائي','توثيق كامل لجميع APIs']},
       {emoji:'📱', label:'الموبايل (R3)', color:'p', tasks:['إعداد APK النهائي لـ Android','اختبار على هواتف مختلفة']},
       {emoji:'🎨', label:'التصميم (R6)', color:'a', tasks:['تحضير أصول التطبيق النهائية: أيقونة، splash screen']},
-      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['اختبار حقيقي مع جهاز GPS فعلي']},
+      {emoji:'📡', label:'GPS (R4)', color:'r', tasks:['اختبار حقيقي مع NEO-6M + ESP32/Arduino','التحقق من دقة GPS في ظروف حقيقية']},
       {emoji:'🗄️', label:'قاعدة البيانات (R2)', color:'g', tasks:['التحقق النهائي من البيانات','إعداد النسخ الاحتياطي التلقائي']},
     ]},
   }
