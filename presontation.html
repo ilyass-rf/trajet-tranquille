@@ -828,7 +828,7 @@ function openContactModal(){
         <label class="contact-label">
           <span data-fr>Nom complet *</span><span data-en>Full Name *</span><span data-ar>الاسم الكامل *</span>
         </label>
-        <input type="text" name="name" required class="contact-input" placeholder="Jean Dupont">
+        <input type="text" name="name" required class="contact-input" placeholder="Jean Dupont" id="contactNameInput">
       </div>
       <div class="contact-group">
         <label class="contact-label">Email *</label>
@@ -861,7 +861,9 @@ function openContactModal(){
   modal.querySelectorAll('[data-fr],[data-en],[data-ar]').forEach(el=>{
     el.style.display = el.hasAttribute('data-'+lang) ? '' : 'none';
   });
-
+  // Remplir automatiquement le nom depuis le login
+  const savedName = localStorage.getItem('tt-username') || sessionStorage.getItem('tt-username');
+  if(savedName) document.getElementById('contactNameInput').value = savedName;
   document.getElementById('contactModalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 

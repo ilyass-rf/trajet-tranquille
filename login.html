@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trajet Tranquille — Accès Sécurisé</title>
+<link rel="icon" type="image/png" href="buss.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --primary:#6c63ff;--accent:#f9a825;--dark:#07090f;--card:#0f1320;
+  --text:#e2e8f0;--muted:#7a8499;--green:#22c55e;--red:#ef4444;
+  --border:rgba(255,255,255,0.07);
+}
+html{scroll-behavior:smooth; height: auto;}
+body{
+  font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);
+  /*min-height:100vh;*/display:flex;align-items:flex-start;justify-content:center;
+  overflow-y: auto;position:relative;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+body.ar{direction:rtl;font-family:'Noto Naskh Arabic','DM Sans',sans-serif;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:2px;}
+
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;}
+.orb1{width:600px;height:600px;background:rgba(108,99,255,.09);top:-200px;right:-200px;animation:orbFloat 9s ease-in-out infinite;}
+.orb2{width:400px;height:400px;background:rgba(249,168,37,.06);bottom:-150px;left:-150px;animation:orbFloat 12s ease-in-out infinite reverse;}
+
+.login-wrapper{
+  position:relative;z-index:10;width:100%;max-width:460px;
+  padding:24px;animation:fadeUp .8s ease both;
+  margin: 40px auto; 
+}
+.login-header{text-align:center;margin-bottom:32px;}
+.bus-icon{
+  font-size:4rem;display:block;margin-bottom:14px;
+  animation:busFloat 3s ease-in-out infinite;
+  filter:drop-shadow(0 0 24px rgba(108,99,255,.5));
+}
+.login-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;letter-spacing:3px;margin-bottom:6px;}
+.login-brand span{color:var(--primary);}
+.login-sub{font-size:.78rem;color:var(--muted);letter-spacing:1px;}
+
+.login-card{
+  background:rgba(15,19,32,.85);border:1px solid rgba(108,99,255,.18);
+  border-radius:24px;padding:36px 32px;backdrop-filter:blur(20px);
+  box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(108,99,255,.08);
+  position:relative;overflow:hidden;
+}
+.login-card::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:3px;
+  background:linear-gradient(90deg,var(--primary),var(--accent),var(--primary));
+  background-size:200%;animation:shimmer 3s linear infinite;
+}
+@keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
+
+.lang-btns{display:flex;gap:7px;justify-content:flex-end;margin-bottom:20px;}
+.lang-btn{
+  padding:4px 14px;border-radius:50px;border:1px solid var(--border);
+  background:transparent;color:var(--muted);font-size:.7rem;font-weight:600;
+  cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;
+}
+.lang-btn.active,.lang-btn:hover{background:var(--primary);border-color:var(--primary);color:#fff;}
+
+.card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:6px;display:flex;align-items:center;gap:9px;}
+.card-title-icon{font-size:1.2rem;}
+.card-desc{font-size:.78rem;color:var(--muted);margin-bottom:28px;line-height:1.6;}
+
+.input-group{margin-bottom:18px;position:relative;}
+.input-label{display:block;font-size:.75rem;color:var(--muted);margin-bottom:7px;font-weight:500;letter-spacing:.5px;}
+.input-wrap{position:relative;}
+.input-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none;}
+body.ar .input-icon{left:auto;right:14px;}
+.login-input{
+  width:100%;padding:13px 14px 13px 42px;
+  background:rgba(255,255,255,.05);border:1px solid var(--border);
+  border-radius:12px;color:var(--text);font-size:.88rem;outline:none;
+  font-family:'DM Sans',sans-serif;transition:all .25s;appearance:none;
+}
+body.ar .login-input{padding:13px 42px 13px 14px;}
+.login-input:focus{border-color:rgba(108,99,255,.6);background:rgba(108,99,255,.06);box-shadow:0 0 0 3px rgba(108,99,255,.12);}
+.login-input::placeholder{color:var(--muted);}
+.login-input.error{border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.05);}
+
+.eye-btn{
+  position:absolute;right:13px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;color:var(--muted);
+  font-size:.9rem;padding:4px;transition:color .2s;
+}
+body.ar .eye-btn{right:auto;left:13px;}
+.eye-btn:hover{color:var(--text);}
+
+.err-msg{
+  display:flex;align-items:center;gap:7px;
+  background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);
+  border-radius:10px;padding:10px 14px;margin-bottom:16px;
+  font-size:.78rem;color:#fc8a8a;line-height:1.5;
+  opacity:0;transform:translateY(-6px);transition:all .3s ease;pointer-events:none;
+}
+.err-msg.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+.err-icon{font-size:1rem;flex-shrink:0;}
+
+.attempts-bar{display:flex;gap:5px;margin-bottom:18px;align-items:center;}
+.attempt-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.08);
+  transition:all .4s ease;flex-shrink:0;
+}
+.attempt-dot.used{background:var(--red);border-color:var(--red);box-shadow:0 0 8px rgba(239,68,68,.5);}
+.attempts-label{font-size:.68rem;color:var(--muted);margin-left:auto;}
+body.ar .attempts-label{margin-left:0;margin-right:auto;}
+
+.login-btn{
+  width:100%;padding:14px;
+  background:linear-gradient(135deg,var(--primary),#8b7cf6);
+  color:#fff;border:none;border-radius:12px;font-weight:700;font-size:.92rem;
+  cursor:pointer;font-family:'DM Sans',sans-serif;
+  box-shadow:0 0 24px rgba(108,99,255,.4);transition:all .3s;
+  position:relative;overflow:hidden;letter-spacing:.5px;
+}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(108,99,255,.6);}
+.login-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+
+.lock-screen{display:none;flex-direction:column;align-items:center;text-align:center;padding:20px 0;}
+.lock-screen.show{display:flex;}
+.lock-icon{font-size:3rem;margin-bottom:14px;animation:shake .5s ease;}
+.lock-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--red);margin-bottom:8px;}
+.lock-sub{font-size:.78rem;color:var(--muted);line-height:1.7;margin-bottom:18px;}
+.lock-countdown{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--accent);margin-bottom:6px;}
+.lock-countdown-label{font-size:.7rem;color:var(--muted);}
+
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);
+  z-index:9999;display:flex;align-items:center;justify-content:center;
+  padding:20px;opacity:0;pointer-events:none;transition:opacity .35s ease;
+}
+.modal-overlay.open{opacity:1;pointer-events:auto;}
+.modal-box{
+  background:#0c1022;border:1px solid rgba(249,168,37,.25);border-radius:22px;
+  width:100%;max-width:500px;transform:translateY(30px) scale(.96);
+  transition:transform .35s ease;box-shadow:0 40px 100px rgba(0,0,0,.7);overflow:hidden;
+}
+.modal-overlay.open .modal-box{transform:translateY(0) scale(1);}
+
+.modal-top{
+  background:linear-gradient(135deg,rgba(249,168,37,.08),rgba(108,99,255,.06));
+  border-bottom:1px solid rgba(249,168,37,.12);padding:28px 28px 22px;text-align:center;
+}
+.modal-emoji-wrap{
+  width:72px;height:72px;border-radius:50%;background:rgba(249,168,37,.1);
+  border:2px solid rgba(249,168,37,.25);display:flex;align-items:center;
+  justify-content:center;font-size:2.2rem;margin:0 auto 16px;
+  animation:pulseRing 2s ease-in-out infinite;
+}
+@keyframes pulseRing{0%,100%{box-shadow:0 0 0 0 rgba(249,168,37,.3);}50%{box-shadow:0 0 0 12px rgba(249,168,37,0);}}
+.modal-title{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;margin-bottom:6px;color:var(--accent);}
+.modal-sub-title{font-size:.78rem;color:var(--muted);}
+
+.modal-body{padding:22px 28px 26px;max-height:65vh;overflow-y:auto;}
+.modal-rule{
+  display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:12px;
+  background:rgba(255,255,255,.03);border:1px solid var(--border);margin-bottom:10px;
+  transition:border-color .2s;
+}
+.modal-rule:hover{border-color:rgba(249,168,37,.2);}
+.rule-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px;}
+.rule-text{font-size:.8rem;line-height:1.65;color:var(--text);}
+.rule-text strong{color:var(--accent);}
+
+.modal-motivation{
+  background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(34,197,94,.06));
+  border:1px solid rgba(108,99,255,.2);border-radius:14px;
+  padding:16px 18px;margin-top:16px;margin-bottom:20px;
+  display:flex;align-items:flex-start;gap:12px;
+}
+.motivation-icon{font-size:1.5rem;flex-shrink:0;}
+.motivation-text{font-size:.82rem;line-height:1.7;color:var(--text);}
+.motivation-text strong{color:var(--primary);}
+
+.modal-btn{
+  width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),#f57f17);
+  color:#000;border:none;border-radius:12px;font-weight:800;font-size:.92rem;
+  cursor:pointer;font-family:'DM Sans',sans-serif;
+  box-shadow:0 0 24px rgba(249,168,37,.3);transition:all .3s;letter-spacing:.5px;
+}
+.modal-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(249,168,37,.5);}
+
+.success-overlay{
+  position:fixed;inset:0;z-index:9998;background:var(--dark);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  opacity:0;pointer-events:none;transition:opacity .4s ease;
+}
+.success-overlay.show{opacity:1;pointer-events:auto;}
+.success-icon{font-size:5rem;animation:successPop .5s ease both;}
+.success-msg{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-top:16px;color:var(--green);animation:fadeUp .5s ease .2s both;}
+.success-sub{font-size:.85rem;color:var(--muted);margin-top:8px;animation:fadeUp .5s ease .35s both;}
+.success-bar{width:200px;height:3px;background:rgba(255,255,255,.1);border-radius:2px;margin-top:24px;overflow:hidden;animation:fadeUp .5s ease .5s both;}
+.success-bar-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--green));width:0;border-radius:2px;transition:width 1.6s ease;}
+
+.login-footer{text-align:center;margin-top:22px;font-size:.7rem;color:var(--muted);letter-spacing:.5px;}
+.login-footer span{color:var(--primary);font-weight:600;}
+
+[data-fr],[data-en],[data-ar]{display:none;}
+body.fr [data-fr]{display:block;}body.en [data-en]{display:block;}body.ar [data-ar]{display:block;}
+span[data-fr],span[data-en],span[data-ar]{display:none;}
+body.fr span[data-fr]{display:inline;}body.en span[data-en]{display:inline;}body.ar span[data-ar]{display:inline;}
+
+@keyframes busFloat{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-12px) rotate(2deg);}}
+@keyframes orbFloat{0%,100%{transform:scale(1) translateY(0);}50%{transform:scale(1.08) translateY(-18px);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-8px);}40%,80%{transform:translateX(8px);}}
+@keyframes successPop{0%{transform:scale(.8);opacity:0;}70%{transform:scale(1.1);}100%{transform:scale(1);opacity:1;}}
+
+@media(max-width:480px){
+  .login-card{padding:26px 20px;}
+  .modal-body{padding:16px 18px 20px;}
+  .modal-top{padding:22px 18px 18px;}
+}
+@media (max-height: 700px) {
+  .modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+}
+</style>
+</head>
+<body class="fr">
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<canvas id="particles"></canvas>
+<div class="modal-overlay" id="warningModal">
+  <div class="modal-box">
+    <div class="modal-top">
+      <div class="modal-emoji-wrap">🔐</div>
+      <div class="modal-title">
+        <span data-fr>Avertissement Confidentiel</span>
+        <span data-en>Confidential Warning</span>
+        <span data-ar>تحذير سري</span>
+      </div>
+      <div class="modal-sub-title">
+        <span data-fr>Veuillez lire attentivement avant de continuer</span>
+        <span data-en>Please read carefully before continuing</span>
+        <span data-ar>يرجى القراءة بعناية قبل المتابعة</span>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div id="modalGreeting" style="
+        background:rgba(108,99,255,.1);
+        border:1px solid rgba(108,99,255,.28);
+        border-radius:12px;
+        padding:11px 16px;
+        font-size:.83rem;
+        color:var(--text);
+        line-height:1.65;
+        margin-bottom:14px;
+      ">
+        <span data-fr>👋 Bonjour <strong id="greetNameFr" style="color:var(--primary);"></strong>, veuillez lire les conseils suivants :</span>
+        <span data-en>👋 Hello <strong id="greetNameEn" style="color:var(--primary);"></strong>, please read the following advice :</span>
+        <span data-ar>👋 مرحباً <strong id="greetNameAr" style="color:var(--primary);"></strong>، يرجى قراءة النصائح التالية :</span>
+      </div>
+      <div class="modal-rule">
+        <span class="rule-icon">🤫</span>
+        <div class="rule-text">
+          <span data-fr><strong>Ce projet est strictement confidentiel.</strong> Son contenu ne doit être partagé avec aucune personne extérieure à l'équipe.</span>
+          <span data-en><strong>This project is strictly confidential.</strong> Its content must not be shared with anyone outside the team.</span>
+          <span data-ar><strong>هذا المشروع سري للغاية.</strong> لا يجوز مشاركة محتواه مع أي شخص خارج الفريق.</span>
+        </div>
+      </div>
+      <div class="modal-rule">
+        <span class="rule-icon">🔑</span>
+        <div class="rule-text">
+          <span data-fr><strong>Ne partagez jamais votre mot de passe.</strong> Il vous a été attribué personnellement par le responsable du site.</span>
+          <span data-en><strong>Never share your password.</strong> It was personally assigned to you by the site owner.</span>
+          <span data-ar><strong>لا تشارك كلمة المرور أبداً.</strong> لقد تم تعيينها لك شخصياً من قِبل مسؤول الموقع.</span>
+        </div>
+      </div>
+      <div class="modal-rule">
+        <span class="rule-icon">🚫</span>
+        <div class="rule-text">
+          <span data-fr><strong>Aucune information</strong> sur l'architecture, les membres ou les données du projet ne doit être divulguée à l'extérieur.</span>
+          <span data-en><strong>No information</strong> about the architecture, members or project data should be disclosed outside the team.</span>
+          <span data-ar><strong>لا يُسمح بالكشف</strong> عن أي معلومات تتعلق بالهيكل أو الأعضاء أو بيانات المشروع.</span>
+        </div>
+      </div>
+      <div class="modal-motivation">
+        <span class="motivation-icon">🚀</span>
+        <div class="motivation-text">
+          <span data-fr><strong>Vous faites partie d'une équipe exceptionnelle !</strong><br>Chaque ligne de code, chaque design, chaque décision compte. Ensemble, vous construisez quelque chose qui va transformer les transports de demain. Croyez en vous — le futur commence ici. 💪✨</span>
+          <span data-en><strong>You're part of an exceptional team!</strong><br>Every line of code, every design, every decision matters. Together, you're building something that will transform tomorrow's transport. Believe in yourselves — the future starts here. 💪✨</span>
+          <span data-ar><strong>أنت جزء من فريق استثنائي!</strong><br>كل سطر من الكود، كل تصميم، كل قرار يهم. معاً تبنون شيئاً سيغيّر مواصلات الغد. ثِق بنفسك — المستقبل يبدأ من هنا. 💪✨</span>
+        </div>
+      </div>
+      <button class="modal-btn" onclick="acceptAndEnter()">
+        <span data-fr>✅ J'ai compris — Accéder à la présentation</span>
+        <span data-en>✅ I understand — Access the presentation</span>
+        <span data-ar>✅ فهمت — الدخول إلى العرض</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SUCCESS OVERLAY ══ -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-icon">✅</div>
+  <div class="success-msg">
+    <span data-fr>Bienvenue !</span>
+    <span data-en>Welcome!</span>
+    <span data-ar>مرحباً بك!</span>
+  </div>
+  <div class="success-sub">
+    <span data-fr>Authentification réussie…</span>
+    <span data-en>Authentication successful…</span>
+    <span data-ar>تم التحقق بنجاح…</span>
+  </div>
+  <div class="success-bar"><div class="success-bar-fill" id="successFill"></div></div>
+</div>
+
+<!-- ══ LOGIN CARD ══ -->
+<div class="login-wrapper">
+  <div class="login-header">
+    <span class="bus-icon">🚌</span>
+    <div class="login-brand"><span style="color:var(--accent);">TRAJET</span> <span>TRANQUILLE</span></div>
+    <div class="login-sub">
+      <span data-fr>MINDS AND MACHINES CLUB — Accès Sécurisé</span>
+      <span data-en>MINDS AND MACHINES CLUB — Secure Access</span>
+      <span data-ar>MINDS AND MACHINES CLUB — وصول آمن</span>
+    </div>
+  </div>
+
+  <div class="login-card">
+    <div class="lang-btns">
+      <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('ar')">AR</button>
+    </div>
+
+    <div class="card-title">
+      <span class="card-title-icon">🔒</span>
+      <span data-fr>Connexion requise</span>
+      <span data-en>Login required</span>
+      <span data-ar>تسجيل الدخول مطلوب</span>
+    </div>
+    <div class="card-desc">
+      <span data-fr>Entrez votre nom et le mot de passe fourni par le responsable pour accéder à la présentation.</span>
+      <span data-en>Enter your name and the password provided by the site owner to access the presentation.</span>
+      <span data-ar>أدخل اسمك وكلمة المرور التي قدّمها مسؤول الموقع للوصول إلى العرض.</span>
+    </div>
+
+    <div class="err-msg" id="errMsg">
+      <span class="err-icon">⚠️</span>
+      <span id="errText"></span>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="nameInput">
+        <span data-fr>👤 Votre nom complet</span>
+        <span data-en>👤 Your full name</span>
+        <span data-ar>👤 اسمك الكامل</span>
+      </label>
+      <div class="input-wrap">
+        <span class="input-icon">👤</span>
+        <input class="login-input" id="nameInput" type="text" autocomplete="name" placeholder="ex: Salihi Ilyass" />
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="passInput">
+        <span data-fr>🔑 Mot de passe</span>
+        <span data-en>🔑 Password</span>
+        <span data-ar>🔑 كلمة المرور</span>
+      </label>
+      <div class="input-wrap">
+        <span class="input-icon">🔑</span>
+        <input class="login-input" id="passInput" type="password" autocomplete="current-password" placeholder="••••••••••••" />
+        <button class="eye-btn" id="eyeBtn" onclick="toggleEye()" type="button" tabindex="-1">👁️</button>
+      </div>
+    </div>
+
+    <div class="attempts-bar" id="attemptsBar" style="display:none;">
+      <div class="attempt-dot" id="dot1"></div>
+      <div class="attempt-dot" id="dot2"></div>
+      <div class="attempt-dot" id="dot3"></div>
+      <span class="attempts-label" id="attemptsLabel"></span>
+    </div>
+
+    <div id="normalForm">
+      <button class="login-btn" id="loginBtn" onclick="doLogin()">
+        <span data-fr>🔓 Accéder à la présentation</span>
+        <span data-en>🔓 Access the presentation</span>
+        <span data-ar>🔓 الدخول إلى العرض</span>
+      </button>
+    </div>
+
+    <div class="lock-screen" id="lockScreen">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-title">
+        <span data-fr>Accès temporairement bloqué</span>
+        <span data-en>Access temporarily blocked</span>
+        <span data-ar>الوصول محظور مؤقتاً</span>
+      </div>
+      <div class="lock-sub">
+        <span data-fr>Trop de tentatives incorrectes. Réessayez dans :</span>
+        <span data-en>Too many incorrect attempts. Try again in:</span>
+        <span data-ar>محاولات خاطئة كثيرة. حاول مجدداً خلال:</span>
+      </div>
+      <div class="lock-countdown" id="lockCountdown">60</div>
+      <div class="lock-countdown-label">
+        <span data-fr>secondes</span>
+        <span data-en>seconds</span>
+        <span data-ar>ثانية</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-footer">
+    <span style="color:var(--accent);">TRAJET</span> <span>TRANQUILLE</span> · Minds & Machines Club
+  </div>
+</div>
+
+<script>
+const CORRECT_PASSWORD = "T0r1a2J3e4T'ilyass";
+const MAX_ATTEMPTS = 3;
+const LOCK_SECONDS = 60;
+const PRESENTATION_PAGE = "presontation.html";
+
+/* LANG */
+function setLang(l){
+  document.body.className=l;
+  document.body.style.direction=l==='ar'?'rtl':'ltr';
+  document.body.style.fontFamily=l==='ar'?"'Noto Naskh Arabic','DM Sans',sans-serif":"'DM Sans',sans-serif";
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim().toLowerCase()===l));
+  localStorage.setItem('tt-lang',l);
+  updateAttemptsLabel();
+}
+(function(){
+  const l=localStorage.getItem('tt-lang')||'fr';
+  document.body.className=l;
+  document.body.style.direction=l==='ar'?'rtl':'ltr';
+  document.body.style.fontFamily=l==='ar'?"'Noto Naskh Arabic','DM Sans',sans-serif":"'DM Sans',sans-serif";
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim().toLowerCase()===l));
+})();
+
+let attempts=parseInt(sessionStorage.getItem('tt-attempts')||'0');
+let locked=sessionStorage.getItem('tt-locked')==='1';
+let lockTimer=null;
+
+function toggleEye(){
+  const inp=document.getElementById('passInput');
+  const btn=document.getElementById('eyeBtn');
+  if(inp.type==='password'){inp.type='text';btn.textContent='🙈';}
+  else{inp.type='password';btn.textContent='👁️';}
+}
+
+function showError(fr,en,ar){
+  const el=document.getElementById('errMsg');
+  const l=document.body.className||'fr';
+  document.getElementById('errText').textContent=l==='ar'?ar:l==='en'?en:fr;
+  el.classList.add('show');
+  document.getElementById('passInput').classList.add('error');
+  setTimeout(()=>{el.classList.remove('show');document.getElementById('passInput').classList.remove('error');},4500);
+}
+
+function updateAttemptsDots(){
+  const bar=document.getElementById('attemptsBar');
+  if(attempts===0){bar.style.display='none';return;}
+  bar.style.display='flex';
+  for(let i=1;i<=3;i++) document.getElementById('dot'+i).classList.toggle('used',i<=attempts);
+  updateAttemptsLabel();
+}
+function updateAttemptsLabel(){
+  const lbl=document.getElementById('attemptsLabel');
+  const l=document.body.className||'fr';
+  const left=MAX_ATTEMPTS-attempts;
+  if(l==='ar') lbl.textContent=`${left} محاولة متبقية`;
+  else if(l==='en') lbl.textContent=`${left} attempt${left>1?'s':''} left`;
+  else lbl.textContent=`${left} tentative${left>1?'s':''} restante${left>1?'s':''}`;
+}
+
+function startLock(){
+  locked=true;sessionStorage.setItem('tt-locked','1');
+  document.getElementById('normalForm').style.display='none';
+  document.getElementById('lockScreen').classList.add('show');
+  let secs=LOCK_SECONDS;
+  document.getElementById('lockCountdown').textContent=secs;
+  lockTimer=setInterval(()=>{
+    secs--;document.getElementById('lockCountdown').textContent=secs;
+    if(secs<=0){
+      clearInterval(lockTimer);locked=false;attempts=0;
+      sessionStorage.removeItem('tt-locked');sessionStorage.removeItem('tt-attempts');
+      document.getElementById('lockScreen').classList.remove('show');
+      document.getElementById('normalForm').style.display='';
+      document.getElementById('attemptsBar').style.display='none';
+      for(let i=1;i<=3;i++) document.getElementById('dot'+i).classList.remove('used');
+    }
+  },1000);
+}
+
+function doLogin(){
+  if(locked)return;
+  const name=document.getElementById('nameInput').value.trim();
+  const pass=document.getElementById('passInput').value;
+  if(!name){showError('Veuillez entrer votre nom.','Please enter your name.','يرجى إدخال اسمك.');document.getElementById('nameInput').focus();return;}
+  if(!pass){showError('Veuillez entrer le mot de passe.','Please enter the password.','يرجى إدخال كلمة المرور.');document.getElementById('passInput').focus();return;}
+  if(pass===CORRECT_PASSWORD){
+    sessionStorage.removeItem('tt-attempts');sessionStorage.removeItem('tt-locked');
+    sessionStorage.setItem('tt-username', name);
+    localStorage.setItem('tt-username', name);
+    showSuccessThenModal();
+  } else {
+    attempts++;sessionStorage.setItem('tt-attempts',attempts);updateAttemptsDots();
+    if(attempts>=MAX_ATTEMPTS){startLock();}
+    else{
+      const left=MAX_ATTEMPTS-attempts;
+      showError(
+        `Mot de passe incorrect. Il vous reste ${left} tentative${left>1?'s':''}.`,
+        `Incorrect password. ${left} attempt${left>1?'s':''} left.`,
+        `كلمة المرور غير صحيحة. تبقّى ${left} محاولة.`
+      );
+    }
+  }
+}
+
+function showSuccessThenModal(){
+  const ovl=document.getElementById('successOverlay');
+  const name=document.getElementById('nameInput').value.trim();
+  ovl.classList.add('show');
+  setTimeout(()=>{document.getElementById('successFill').style.width='100%';},100);
+  setTimeout(()=>{ovl.classList.remove('show');showWarningModal(name);},2000);
+}
+
+function showWarningModal(name){
+  // Fill name in all greeting elements
+  ['Fr','En','Ar'].forEach(suffix=>{
+    const el=document.getElementById('greetName'+suffix);
+    if(el) el.textContent=name;
+  });
+  document.getElementById('warningModal').classList.add('open');
+}
+
+function acceptAndEnter(){
+  document.getElementById('warningModal').classList.remove('open');
+  window.location.href=PRESENTATION_PAGE;
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    if(document.getElementById('warningModal').classList.contains('open')) acceptAndEnter();
+    else doLogin();
+  }
+});
+
+if(locked){document.getElementById('normalForm').style.display='none';document.getElementById('lockScreen').classList.add('show');document.getElementById('lockCountdown').textContent=LOCK_SECONDS;startLock();}
+if(attempts>0) updateAttemptsDots();
+
+/* PARTICLES */
+const cv=document.getElementById('particles');
+const ctx=cv.getContext('2d');let pts=[];
+function resize(){cv.width=window.innerWidth;cv.height=window.innerHeight;pts=[];for(let i=0;i<55;i++)pts.push({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.3+.4});}
+function draw(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>cv.width)p.vx*=-1;if(p.y<0||p.y>cv.height)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(108,99,255,.4)';ctx.fill();});for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);if(d<130){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(108,99,255,${.1*(1-d/130)})`;ctx.lineWidth=.5;ctx.stroke();}}requestAnimationFrame(draw);}
+window.addEventListener('resize',resize);resize();draw();
+</script>
+</body>
+</html>
